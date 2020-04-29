@@ -1,0 +1,555 @@
+openapi: 3.0.0
+info:
+  version: 1.2.0
+  title: Envi Server
+  description: Server pro účely předmětu ZČU KKY/ITE 2020
+  license:
+    name: MIT
+servers:
+  - url: 'https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod'
+paths:
+  /login:
+    post:
+      summary: Login
+      operationId: login
+      description: Login by username and password in the post body. The teamUUID will be returned in the response, use it in the header parameter of the subsequent API calls.
+      tags:
+        - authentication
+      parameters:
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+            format: application/json
+          required: true
+          description: Specify the data Content-Type
+      requestBody:
+        description: Authenticate by username and password
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: A teamUUID for further authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /sensors:
+    get:
+      summary: List all sensors
+      operationId: readAllSensors
+      description: List sensors available for the current team (authorized by the teamUUID in the request's header). Use the sensorUUID from the response to identify the particular sensor in the subsequent API calls.
+      tags:
+        - sensors
+      parameters:
+        - in: header
+          name: teamUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Authorize by the teamUUID of your team
+      responses:
+        '200':
+          description: A paged array of sensors' information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sensors'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /measurements:
+    get:
+      summary: List all measurements
+      operationId: readAllMeasurements
+      tags:
+        - measurements
+      parameters:
+        - in: header
+          name: teamUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Authorize by the teamUUID of your team
+        - in: query
+          name: sensorUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Read measurements for the particular sensor identified by its sensorUUID
+      responses:
+        '200':
+          description: A paged array of measurements
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Measurements'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Store a measurement
+      operationId: createMeasurement
+      tags:
+        - measurements
+      parameters:
+        - in: header
+          name: teamUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Authorize by the teamUUID of your team
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+            format: application/json
+          required: true
+          description: Specify the data Content-Type
+      requestBody:
+        description: Measurement body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Measurement'
+      responses:
+        '201':
+          description: Succesfully stored
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/measurements/{measurementId}':
+    get:
+      summary: Read a specific measurement
+      operationId: readSingleMeasurement
+      tags:
+        - measurements
+      parameters:
+        - in: path
+          name: measurementId
+          required: true
+          description: The id of the measurement to retrieve
+          schema:
+            type: string
+        - in: header
+          name: teamUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Authorize by the teamUUID of your team
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeasurementBody'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update a specific measurement
+      operationId: updateMeasurement
+      tags:
+        - measurements
+      parameters:
+        - in: path
+          name: measurementId
+          required: true
+          description: The id of the measurement to update
+          schema:
+            type: string
+        - in: header
+          name: teamUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Authorize by the teamUUID of your team
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+            format: application/json
+          required: true
+          description: Specify the data Content-Type
+      requestBody:
+        description: Measurement body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MeasurementBody'
+            example:
+              temperature: 35.5
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeasurementBody'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete a specific measurement
+      operationId: deleteMeasurement
+      tags:
+        - measurements
+      parameters:
+        - in: path
+          name: measurementId
+          required: true
+          description: The id of the measurement to delete
+          schema:
+            type: string
+        - in: header
+          name: teamUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Authorize by the teamUUID of your team
+      responses:
+        '200':
+          description: Sucessfully deleted
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /alerts:
+    get:
+      summary: List all alerts
+      operationId: readAllAlerts
+      tags:
+        - alerts
+      parameters:
+        - in: header
+          name: teamUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Authorize by the teamUUID of your team
+      responses:
+        '200':
+          description: A paged array of alerts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alerts'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Store an alert
+      operationId: createAlert
+      tags:
+        - alerts
+      parameters:
+        - in: header
+          name: teamUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Authorize by the teamUUID of your team
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+            format: application/json
+          required: true
+          description: Specify the data Content-Type
+      requestBody:
+        description: Alert body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alert'
+      responses:
+        '201':
+          description: Succesfully stored
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/alerts/{alertId}':
+    get:
+      summary: Read a specific alert
+      operationId: readSingleAlert
+      tags:
+        - alerts
+      parameters:
+        - in: path
+          name: alertId
+          required: true
+          description: The id of the alert to retrieve
+          schema:
+            type: string
+        - in: header
+          name: teamUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Authorize by the teamUUID of your team
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertBody'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update a specific alert
+      operationId: updateAlert
+      tags:
+        - alerts
+      parameters:
+        - in: path
+          name: alertId
+          required: true
+          description: The id of the alert to update
+          schema:
+            type: string
+        - in: header
+          name: teamUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Authorize by the teamUUID of your team
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+            format: application/json
+          required: true
+          description: Specify the data Content-Type
+      requestBody:
+        description: Alert body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertBody'
+            example:
+              highTemperature: 150.5
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertBody'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete a specific alert
+      operationId: deleteAlert
+      tags:
+        - alerts
+      parameters:
+        - in: path
+          name: alertId
+          required: true
+          description: The id of the alert to delete
+          schema:
+            type: string
+        - in: header
+          name: teamUUID
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Authorize by the teamUUID of your team
+      responses:
+        '200':
+          description: Sucessfully deleted
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Alert:
+      type: object
+      required:
+        - createdOn
+        - sensorUUID
+        - temperature
+        - highTemperature
+        - lowTemperature
+      properties:
+        createdOn:
+          type: string
+          example: '2019-03-20T12:00:00.000+01:00'
+        sensorUUID:
+          type: string
+          example: fa1203a8-1263-asd5-sd56-fa1203a8asd5
+        temperature:
+          type: number
+          example: 35.5
+        highTemperature:
+          type: number
+          example: 100.5
+        lowTemperature:
+          type: number
+          example: 10.5
+    Alerts:
+      type: array
+      items:
+        $ref: '#/components/schemas/AlertBody'
+    AlertBody:
+      type: object
+      properties:
+        createdOn:
+          type: string
+          example: '2019-03-20T12:00:00.000+01:00'
+        sensorUUID:
+          type: string
+          example: fa1203a8-1263-asd5-sd56-fa1203a8asd5
+        temperature:
+          type: number
+          example: 35.5
+        highTemperature:
+          type: number
+          example: 100.5
+        lowTemperature:
+          type: number
+          example: 10.5
+    Measurement:
+      type: object
+      required:
+        - createdOn
+        - sensorUUID
+        - temperature
+        - status
+      properties:
+        createdOn:
+          type: string
+          example: '2019-03-20T12:00:00.000+01:00'
+        sensorUUID:
+          type: string
+          example: fa1203a8-1263-asd5-sd56-fa1203a8asd5
+        temperature:
+          type: number
+          example: 35.5
+        status:
+          type: string
+          example: OK
+    Measurements:
+      type: array
+      items:
+        $ref: '#/components/schemas/MeasurementBody'
+    MeasurementBody:
+      type: object
+      properties:
+        createdOn:
+          type: string
+          example: '2019-03-20T12:00:00.000+01:00'
+        sensorUUID:
+          type: string
+          example: fa1203a8-1263-asd5-sd56-fa1203a8asd5
+        temperature:
+          type: number
+          example: 35.5
+        status:
+          type: string
+          example: OK
+    Error:
+      properties:
+        message:
+          type: string
+    Login:
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    LoginResponse:
+      properties:
+        id:
+          type: int
+        username:
+          type: string
+        fullName:
+          type: string
+        year:
+          type: string
+        role:
+          type: string
+        teamUUID:
+          type: string
+          format: uuid
+    Sensors:
+        type: array
+        items:
+          $ref: '#/components/schemas/SensorBody'
+    SensorBody:
+      properties:
+        id:
+          type: int
+        sensorUUID:
+          type: string
+          format: uuid
+        name:
+          type: string
+        location:
+          type: string
+        minTemperature:
+          type: float
+        maxTemperature:
+          type: float

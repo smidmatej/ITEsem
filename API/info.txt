@@ -1,0 +1,47 @@
+1. Jak na to?
+
+Kolekce requestů do programu Postman
+	"2020-04-01 Aimtec EnviServer AWS.postman_collection.json"
+	- stáhněte si Postmana z adresy https://www.postman.com/downloads/
+	- importujte kolekci v json formátu
+	- začněte experimentovat, inspirujte se v našich ukázkách
+		- všechny requesty v ukázkách používají pro authorizaci přístup týmu Orange, ten je testovací, přihlašovací údaje pro váš reálný tým dostanete od vyučujících
+
+Dokumentace REST API
+	"Aimtec REST API.html"
+	- dokumentace REST API
+	- prostudujte si API dokumentaci jednotlivých requestů
+	- příklad jak postupovat při čtení hodnot z měření (measurements)
+		POST /login
+			- použiji username/password mého týmu (popř. Orange/k@9UsH7t)
+			- získám teamUUID
+		GET /sensors
+			- nastavím header parametr teamUUID (získaný z POST /login)
+			- získám sensorUUID
+		GET /measurements
+			- nastavím header parametr teamUUID (získaný z POST /login)
+			- nastavím query parameter sensorUUID (získaný z GET /sensors)
+			- získám historii měření z mého senzoru
+	- POZOR! Volání REST API může napoprvé vrátit timeout (AWS Lambda funkce normálně spí, vy ji prvním requestem vzbudíte, trvá cca 1 min než naskočí), 
+		v takovém případě zkuste opakovat volání znovu. Až budete posílat data ze sensorů pravidelně, nebude to už mít šanci usnout.
+
+2. Něco navíc pro zájemce
+
+Popis api v jazyce OpenAPI 3.0 (dříve Swagger)
+	.\OpenAPI_Doc_Generator\envi-server-swagger.yaml
+	
+Jak ze souboru .yaml vygenerovat dokumentaci?
+	- vše potřebné najdete v adresáři OpenAPI_Doc_Generator
+	- stačí spustit doc.bat, dokumentace se vygeneruje do podadresáře \doc
+	
+Good Luck!
+Dotazy primárně na vyučující, případně na nás.
+
+za Aimtec
+
+Ing. Jiří Dobrý
+jiri.dobry@aimtecglobal.com
+
+Jakub Hlaváč
+jakub.hlavac@aimtecglobal.com
+

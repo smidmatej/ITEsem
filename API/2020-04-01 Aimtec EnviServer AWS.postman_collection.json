@@ -1,0 +1,626 @@
+{
+	"info": {
+		"_postman_id": "43b59ba3-320d-4d37-a368-17c3c12a783f",
+		"name": "EnviServer AWS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Orange\",\r\n    \"password\": \"k@9UsH7t\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/login",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get sensors",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"description": "Orange",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/sensors",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"sensors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get measurements",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"description": "Orange",
+						"key": "teamUUID",
+						"type": "text",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/measurements?sensorUUID=10e65623-a843-488c-8beb-1beef2a7acca",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"measurements"
+					],
+					"query": [
+						{
+							"key": "sensorUUID",
+							"value": "10e65623-a843-488c-8beb-1beef2a7acca",
+							"description": "sensor7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get alerts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"type": "text",
+						"description": "Orange"
+					}
+				],
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/alerts?sensorUUID=10e65623-a843-488c-8beb-1beef2a7acca",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"alerts"
+					],
+					"query": [
+						{
+							"key": "sensorUUID",
+							"value": "10e65623-a843-488c-8beb-1beef2a7acca",
+							"description": "sensor7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get measurement by id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"type": "text",
+						"description": "Orange"
+					}
+				],
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/measurements/90",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"measurements",
+						"90"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "store measurement",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"type": "text",
+						"description": "Orange"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\"createdOn\": \"2019-04-20T13:00:00.000+01:00\",\r\n\t\t\"sensorUUID\": \"10e65623-a843-488c-8beb-1beef2a7acca\",\r\n\t\t\"temperature\": \"32.7\",\r\n\t\t\"status\": \"TEST\"\r\n\t}"
+				},
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/measurements",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"measurements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update measurement by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"type": "text",
+						"description": "Orange"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\"temperature\": \"29.9\"\r\n}"
+				},
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/measurements/90",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"measurements",
+						"90"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete measurement by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"type": "text",
+						"description": "Orange"
+					}
+				],
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/measurements/99999",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"measurements",
+						"99999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get alert by id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"type": "text",
+						"description": "Orange"
+					}
+				],
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/alerts/44",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"alerts",
+						"44"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "store alert",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"type": "text",
+						"description": "Orange"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\"createdOn\": \"2019-04-20T13:00:00.000+01:00\",\r\n\t\t\"sensorUUID\": \"10e65623-a843-488c-8beb-1beef2a7acca\",\r\n\t\t\"temperature\": 32.7,\r\n\t\t\"lowTemperature\": 45.5,\r\n\t\t\"highTemperature\": 80.8\r\n\t}"
+				},
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/alerts",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"alerts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update alert by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"type": "text",
+						"description": "Orange"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\"highTemperature\": 120.50\r\n\t}"
+				},
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/alerts/44",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"alerts",
+						"44"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete alert by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"type": "text",
+						"description": "Orange"
+					}
+				],
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/alerts/99999",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"alerts",
+						"99999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get sensor by id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"description": "Orange",
+						"key": "teamUUID",
+						"type": "text",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b"
+					}
+				],
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/sensors/7",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"sensors",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "store sensor",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"description": "Orange",
+						"key": "teamUUID",
+						"type": "text",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\"sensorUUID\": \"ffffffff-ffff-ffff-ffff-ffffffffffff\",\r\n\t\t\"name\": \"Test testik\",\r\n\t\t\"location\": \"Aimtec 5NP\",\r\n\t\t\"minTemperature\": 45.5,\r\n\t\t\"maxTemperature\": 80.8\r\n\t}"
+				},
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/sensors",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"sensors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update sensor by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"type": "text",
+						"description": "Orange"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\"minTemperature\": 120.50\r\n\t}"
+				},
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/sensors/7",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"sensors",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete sensor by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "teamUUID",
+						"value": "1eb54aae-40f7-4115-a449-9f812300611b",
+						"type": "text",
+						"description": "Orange"
+					}
+				],
+				"url": {
+					"raw": "https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod/sensors/99999",
+					"protocol": "https",
+					"host": [
+						"uvb1bb4153",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"Prod",
+						"sensors",
+						"99999"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": []
+}
