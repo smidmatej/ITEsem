@@ -7,19 +7,6 @@ import ast
 
 # hardcode :)
 mes = b'{"source": "fake", "team_name": "blue", "created_on": "2020-04-28T20:48:54.850744", "temperature": 22.200536974016668}'
-
-import ast
-mes = str(message.payload)
-a = (mes[2:-1])
-print(a)
-print(type(a))
-adict = ast.literal_eval(a)
-print(adict)
-print(type(adict))
-print(adict['source'])
-
-
-mes = b'{"source": "fake", "team_name": "blue", "created_on": "2020-04-28T20:48:54.850744", "temperature": 22.200536974016668}'
 a = (mes[2:-1])
 print(a)
 print(type(a))
