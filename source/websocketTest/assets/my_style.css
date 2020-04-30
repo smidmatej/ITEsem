@@ -1,0 +1,38 @@
+html, body {
+    font-family: "Calibri";
+}
+
+#the_button {
+    position: absolute;
+    bottom: 100px;
+    right: 100px;
+    background-color: red;
+    color: black;
+    font-size: 15px;
+    text-align: center;
+    padding: 5px;
+    margin: 25px;
+    cursor: crosshair;
+    border: 1px solid maroon;
+}
+
+#main_frame {
+    background-color: silver;
+    color: darkblue;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+    margin-top: 25px;
+    margin-bottom: 50px;
+    border: 1px solid black;
+}
+
+
+
+#ws_wall {
+    position: absolute;
+    left: 400px;
+    bottom: 50px;
+    width: 400px;
+    border: 1px dotted gray;
+}

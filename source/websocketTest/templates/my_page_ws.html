@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KKY/ITE 2020: Websocket demo</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="my_style.css" type="text/css" >
+
+    <!-- Scripts -->
+    <script type="text/javascript">
+        var ws;
+    </script>
+
+    <script src="my_script.js" type="text/javascript"></script>
+</head>
+<body onload=onBodyLoad()>
+
+    <div id="main_frame">
+        KKY/ITE - Example - Websocket
+    </div>
+
+    <button id="the_button" onclick=sendToServer()>
+        Send WS message
+    </button>
+
+    <div id="ws_server_message">
+        &nbsp;
+    </div>
+
+    <ul id="ws_wall">
+        {% for item in log %}
+        <li class="ws_wall_item">{{ escape(item) }}</li>
+        {% end %}
+    </ul>
+
+</body>
+</html>
