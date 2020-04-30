@@ -1,0 +1,1 @@
+{'createdOn': time, 'sensorUUID': sensorUUIDblue, 'temperature': str(round(adict['temperature'],1)), 'status': 'TEST'} 
