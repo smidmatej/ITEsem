@@ -1,23 +1,22 @@
 import tornado.ioloop
 import tornado.web
 import tornado.template as template
-
+import sqlite3
 
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.write("Tohle je domov")
+        self.render('html/index.html')
 
-class FormHandler(tornado.web.RequestHandler):
+class DataHandler(tornado.web.RequestHandler):
     def get(self):
-        name = self.get_cookie('name', 'NONAME')
-        param = self.get_argument('message', None)
-        if param:
-            self.set_header("Content-Type", "text/plain")
-            self.write(name+" napsal: "+param)
-        else:
-            self.set_header("Content-Type", "text/html")
-            self.render('index.html', name=name)
+        conn = sqlite3.connect('data.db')
+        c = conn.cursor()
+        c.execute('SELECT * FROM measurements')
+        items = c.fetchall()
+        items = [str(item) for item in items]
+        print(items)
+        self.render('html/data.html',items=items)
 
 
 class NameHandler(tornado.web.RequestHandler):
@@ -40,9 +39,10 @@ class NameHandler(tornado.web.RequestHandler):
 if __name__ == "__main__":
     app = tornado.web.Application([
         (r"/", MainHandler),
-        (r"/form", FormHandler),
         (r"/name", NameHandler),
+        (r"/data", DataHandler)
     ])
-    app.listen(8889)
+    app.listen(8888)
     tornado.ioloop.IOLoop.current().start()
 
+ 
