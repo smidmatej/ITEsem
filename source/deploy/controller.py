@@ -72,10 +72,12 @@ def on_message(client, userdata, msg):
         store_meas(teamUUID, sensorUUID, mes_dict)
 
 def store_to_db(mes_dict):
+    
     connection = sqlite3.connect(DATABASE)
     cursor = connection.cursor()
     
     cursor.execute("INSERT INTO measurements VALUES (?,?,?,?)", (mes_dict['source'], mes_dict['team_name'], get_epoch_time_from_date(mes_dict['created_on']), mes_dict['temperature']))
+    
     #(source text, team_name text, created_on_timestamp real, temperature real)
     connection.commit()
     connection.close()
