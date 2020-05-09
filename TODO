@@ -1,4 +1,4 @@
-Statistika - zvlast py soubor z databaze
+//Statistika - zvlast py soubor z databaze
 Websocket server - vypisovani cele databaze
 Upravit controller aby posilal websocket zpravu pri novych datech
 Navrhnout frontend - html+css+(js)
