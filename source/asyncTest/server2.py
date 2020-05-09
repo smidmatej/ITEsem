@@ -49,6 +49,8 @@ async def counter(websocket, path):
         async for message in websocket:
             data = json.loads(message)
             print(data)
+            STATE["value"] = data['temperature']
+            await notify_state()
     finally:
         await unregister(websocket)
 
