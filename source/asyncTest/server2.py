@@ -1,8 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import asyncio
 import json
 import logging
 import websockets
+import tornado.ioloop
+import tornado.web
+import tornado.template as template
 
 logging.basicConfig()
 
@@ -55,8 +60,18 @@ async def counter(websocket, path):
         await unregister(websocket)
 
 
-start_server = websockets.serve(counter, "localhost", 6789)
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render('index.html')
 
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever() 
+
+if __name__ == "__main__":
+    app = tornado.web.Application([
+        (r"/", MainHandler),
+    ])
+    app.listen(8889)
+    start_server = websockets.serve(counter, "localhost", 6789)
+
+    asyncio.get_event_loop().run_until_complete(start_server)
+    asyncio.get_event_loop().run_forever() 
  

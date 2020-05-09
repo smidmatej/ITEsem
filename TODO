@@ -2,3 +2,10 @@
 Websocket server - vypisovani cele databaze
 Upravit controller aby posilal websocket zpravu pri novych datech
 Navrhnout frontend - html+css+(js)
+
+round 2:
+frontend pridat tagy na vypisovani dat z serveru
+opravit regex
+vypocitat statistikz
+alerty???
+try ty chyby v controlleru
