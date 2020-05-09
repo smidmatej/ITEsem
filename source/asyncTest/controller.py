@@ -83,9 +83,8 @@ def on_message(client, userdata, msg):
     
     uri = "ws://localhost:6789"
     
-    
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(produce(message=mes_dict, host='localhost', port=6789))
+    loop.run_until_complete(produce(message=json.dumps(mes_dict), host='localhost', port=6789))
     
     if msg.topic == 'ite/blue':
         store_meas(teamUUID, sensorUUID, mes_dict)
