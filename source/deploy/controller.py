@@ -65,12 +65,12 @@ def on_message(client, userdata, msg):
     print(msg.topic, msg.qos, msg.payload)
     
     mes_dict = message_to_dict(str(msg.payload)) # msg to dict
+    if mes_dict != None:
+        store_to_db(mes_dict)
+        if msg.topic == 'ite/blue':
+            store_meas(teamUUID, sensorUUID, mes_dict)
     
-    store_to_db(mes_dict)
     
-    if msg.topic == 'ite/blue':
-        store_meas(teamUUID, sensorUUID, mes_dict)
-
 def store_to_db(mes_dict):
     
     connection = sqlite3.connect(DATABASE)
@@ -86,20 +86,25 @@ def store_to_db(mes_dict):
 ## Zpracovani zpravy
 
 def message_to_dict(mes): #prevede MQTT zpravu na dict
-    source = re.search("(source){1}", mes).group().strip()
-    team_name = re.search("(team_name){1}", mes).group().strip()
-    created_on = re.search("(created_on){1}", mes).group().strip()
-    temperature = re.search("(temperature){1}", mes).group().strip()
-    #print(source + ", " + team_name + ", " + created_on + ", " + temperature)
+    try:
+        source = re.search("(source){1}", mes).group().strip()
+        team_name = re.search("(team_name){1}", mes).group().strip()
+        created_on = re.search("(created_on){1}", mes).group().strip()
+        temperature = re.search("(temperature){1}", mes).group().strip()
+        #print(source + ", " + team_name + ", " + created_on + ", " + temperature)
 
-    source_value = re.search('(?<="|'source"|': "|').+(?="|', "|'team_name"|')', mes).group().strip() # "fake"/"real"
-    team_name_value = re.search('(?<="|'team_name"|': "|').+(?="|', "|'created_on"|')', mes).group().strip() # barva tymu
-    created_on_value = re.search('(?<="|'created_on"|': "|').+(?="|', "|'temperature"|')', mes).group().strip()
-    temperature_value = re.search('(?<="|'temperature"|': ).+(?=})', mes).group().strip()
-    #print(value1 + ", " + value2 + ", " + value3 + ", " + value4)
+        source_value = re.search('(?<=(\'|\")source(\'|\"): (\'|\")).+(?=(\'|\"), (\'|\")team_name(\'|\"))', mes).group().strip() # "fake"/"real"
+        team_name_value = re.search('(?<=(\'|\")team_name(\'|\"): (\'|\")).+(?=(\'|\"), (\'|\")created_on(\'|\"))', mes).group().strip() # barva tymu
+        created_on_value = re.search('(?<=(\'|\")created_on(\'|\"): (\'|\")).+(?=(\'|\"), (\'|\")temperature(\'|\"))', mes).group().strip()
+        temperature_value = re.search('(?<=(\'|\")temperature(\'|\"): ).+(?=})', mes).group().strip()
+        #print(value1 + ", " + value2 + ", " + value3 + ", " + value4)
     
-    mes_dict = {source: source_value, team_name: team_name_value, created_on: created_on_value, temperature: float(temperature_value)}
+        mes_dict = {source: source_value, team_name: team_name_value, created_on: created_on_value, temperature: float(temperature_value)}
     
+    except: 
+        print("Whoops, it looks like an error occured ʕ ᵒ̌ n ᵒ̌ ʔ ")
+        return None
+        
     return mes_dict
 
 
