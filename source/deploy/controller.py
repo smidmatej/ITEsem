@@ -88,6 +88,8 @@ def on_message(client, userdata, msg):
 
     uri = "ws://localhost:6789"
     # TODO: tahat statistiku
+    #       osetrit vyjimku
+    #       zaokrouhlit
 
     # list = get_stats()
     stats = [10, 12, 14]
