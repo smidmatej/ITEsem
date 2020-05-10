@@ -1,4 +1,4 @@
-var value = document.querySelector('.value')
+var value = document.querySelector('.blue_stat')
 value.textContent = 'PES';
     websocket = new WebSocket("ws://127.0.0.1:6789/");
             websocket.onmessage = function (event) {
