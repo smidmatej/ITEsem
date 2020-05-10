@@ -102,7 +102,7 @@ def message_to_dict(mes): #prevede MQTT zpravu na dict
         mes_dict = {source: source_value, team_name: team_name_value, created_on: created_on_value, temperature: float(temperature_value)}
     
     except: 
-        print("Whoops, it looks like an error occured ʕ ᵒ̌ n ᵒ̌ ʔ ")
+        print("I'm afraid your journey ends here, traveler ʕᵒ̌n ᵒ̌ʔ ")
         return None
         
     return mes_dict
