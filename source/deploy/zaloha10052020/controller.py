@@ -7,11 +7,6 @@ from datetime import datetime
 import re
 import sqlite3
 
-import asyncio
-import json
-import logging
-import websockets
-
 ## Deklarace
 
 SERVER = '147.228.124.230'  # RPi IP adress
@@ -59,16 +54,6 @@ def on_connect(client, userdata, mid, qos):
     
     client.subscribe(TOPIC) #subscribenuti topicu 
 
-async def producer_handler(websocket, path):
-    while True:
-        message = await on_message()
-        await websocket.send(message)
-
-async def produce(message: str, host: str, port: int) -> None:
-    async with websockets.connect(f"ws://{host}:{port}") as ws:
-        await ws.send(message)
-        await ws.recv()
-        
 # Ziskani message ze serveru
 def on_message(client, userdata, msg):
     global teamUUID
@@ -80,18 +65,12 @@ def on_message(client, userdata, msg):
     print(msg.topic, msg.qos, msg.payload)
     
     mes_dict = message_to_dict(str(msg.payload)) # msg to dict
-    
-    uri = "ws://localhost:6789"
-    
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(produce(message=json.dumps(mes_dict), host='localhost', port=6789))
-    
     if mes_dict != None:
         store_to_db(mes_dict)
         if msg.topic == 'ite/blue':
             store_meas(teamUUID, sensorUUID, mes_dict)
-    return mes_dict
-
+    
+    
 def store_to_db(mes_dict):
     
     connection = sqlite3.connect(DATABASE)
@@ -114,15 +93,16 @@ def message_to_dict(mes): #prevede MQTT zpravu na dict
         temperature = re.search("(temperature){1}", mes).group().strip()
         #print(source + ", " + team_name + ", " + created_on + ", " + temperature)
 
-        source_value = re.search('(?<="source": ").+(?=", "team_name")', mes).group().strip() # "fake"/"real"
-        team_name_value = re.search('(?<="team_name": ").+(?=", "created_on")', mes).group().strip() # barva tymu
-        created_on_value = re.search('(?<="created_on": ").+(?=", "temperature")', mes).group().strip()
-        temperature_value = re.search('(?<="temperature": ).+(?=})', mes).group().strip()
+        source_value = re.search('(?<=(\'|\")source(\'|\"): (\'|\")).+(?=(\'|\"), (\'|\")team_name(\'|\"))', mes).group().strip() # "fake"/"real"
+        team_name_value = re.search('(?<=(\'|\")team_name(\'|\"): (\'|\")).+(?=(\'|\"), (\'|\")created_on(\'|\"))', mes).group().strip() # barva tymu
+        created_on_value = re.search('(?<=(\'|\")created_on(\'|\"): (\'|\")).+(?=(\'|\"), (\'|\")temperature(\'|\"))', mes).group().strip()
+        temperature_value = re.search('(?<=(\'|\")temperature(\'|\"): ).+(?=})', mes).group().strip()
         #print(value1 + ", " + value2 + ", " + value3 + ", " + value4)
-        
+    
         mes_dict = {source: source_value, team_name: team_name_value, created_on: created_on_value, temperature: float(temperature_value)}
+    
     except: 
-        print("I'm afraid your journey ends here, traveler ʕᵒ̌n ᵒ̌ʔ ")
+        print("Whoops, it looks like an error occured ʕ ᵒ̌ n ᵒ̌ ʔ ")
         return None
         
     return mes_dict
@@ -173,17 +153,9 @@ if __name__ == '__main__':
     client.username_pw_set('mqtt_student', password='pivo')
 
     client.connect(SERVER, 1883, 60)
-    '''
-    print('ahoj1')
-    start_server = websockets.serve(producer_handler, "localhost", 6789)
-    print('ahoj')
-    asyncio.get_event_loop().run_until_complete(start_server)
-    asyncio.get_event_loop().run_forever()
-    '''
+
     client.loop_forever()
-    
-    
-    
+  
     #mes = str(message.payload)
     #mes = b'{"source": "fake", "team_name": "blue", "created_on": "2020-04-28T20:48:54.850744", "temperature": 22.200536974016668}'
     #mes = str(b'{"source": "fake", "team_name": "blue", "created_on": "2020-04-28T20:48:54.850744", "temperature": 22.200536974016668}')
