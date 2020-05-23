@@ -40,9 +40,7 @@ var pink_min_temp = document.querySelector('.pink_min')
 var pink_max_temp = document.querySelector('.pink_max')
 var pink_avg_temp = document.querySelector('.pink_avg')
 
-//websocket = new WebSocket("ws://127.0.0.1:6789/");
-websocket = new WebSocket("ws://" + window.location.hostname + ":6789/");
-blue_status.textContent = "ws://" + window.location.hostname + ":6789/";
+websocket = new WebSocket("ws://127.0.0.1:6789/");
             websocket.onmessage = function (event) {
                 data = JSON.parse(event.data);
                 

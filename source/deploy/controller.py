@@ -17,6 +17,9 @@ SERVER = '147.228.124.230'  # RPi IP adress
 TOPIC = 'ite/#' # Team Blue
 DATABASE = 'data.db'
 
+WS_SERVER = "147.228.121.51"
+WS_PORT = 6789
+
 url_base = 'https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod'
 body_login = {'username': 'Blue', 'password': 'n96{ZYV7'}
 
@@ -80,17 +83,17 @@ def on_message(client, userdata, msg):
     
     mes_dict = message_to_dict(str(msg.payload)) # msg to dict
     
-    uri = "ws://localhost:6789"
-    
     if mes_dict != None:
         store_to_db(mes_dict)
         
         stats = get_stats(mes_dict['team_name'])
         stats = ["%.2f" % stats[0], "%.2f" % stats[1], "%.2f" % stats[2]]
         mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : 'Online', 'cur_temp' : "%.2f" % mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2]}
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host='localhost', port=6789))
-        
+        try:
+            loop = asyncio.get_event_loop()
+            loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
+        except:
+            print('cant connect to server')
         if msg.topic == 'ite/blue':
             store_meas(teamUUID, sensorUUID, mes_dict)
     
