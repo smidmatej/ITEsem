@@ -40,7 +40,7 @@ body {
 	font-size: 15px;
 	letter-spacing: 0.5px;
 	line-height: 1.5;
-	color: #710F89;
+	color: #ba0006;
 }
 
 ul {
@@ -56,7 +56,7 @@ ul li {
 
 a { 
 	text-decoration: none;
-	color: #710F89;  
+	color: #ba0006;  
 }
 
 a:hover,
@@ -265,7 +265,7 @@ button:focus {
 .navbar-default .navbar-brand,
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-	color: #710F89;
+	color: #ba0006;
 	font-size: 35px;
 	font-family: 'Montserrat', sans-serif;
 	margin-top: -5px;
@@ -299,7 +299,7 @@ button:focus {
 
 .navbar-default .mu-menu li a {
 	border-bottom: 2px solid transparent;
-	color: #710F89;
+	color: #ba0006;
 	font-size: 15px;
 	font-weight: 400;
 	padding: 0 0 5px;
@@ -310,14 +310,14 @@ button:focus {
 .navbar-default .mu-menu li a:hover,
 .navbar-default .mu-menu li a:focus {
 	border-bottom: 2px solid #ffffff;
-	color: #710F89;
+	color: #ba0006;
 }
 
 .navbar-default .navbar-nav > .active > a, 
 .navbar-default .navbar-nav > .active > a:focus, 
 .navbar-default .navbar-nav > .active > a:hover{
 	background-color: transparent;
-	color: #710F89;
+	color: #ba0006;
 }
 
 
@@ -604,7 +604,7 @@ button:focus {
 }
 
 .mu-counter-area h2 {
-	color: #710F89;
+	color: #ba0006;
 	text-align: center;
 }
 
@@ -623,9 +623,9 @@ button:focus {
 }
 
 .mu-single-counter i {
-	color: #710F89;
+	color: #ba0006;
 	font-size: 40px;
-	border-bottom: 3px solid #710F89;
+	border-bottom: 3px solid #ba0006;
 	padding: 15px 15px;
 	margin-bottom: 0px;
 	display: inline-block;
@@ -636,11 +636,11 @@ button:focus {
 	font-weight: 700;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	color: #710F89;
+	color: #ba0006;
 }
 
 .mu-counter-name {
-	color: #710F89;
+	color: #ba0006;
 }
 
 
