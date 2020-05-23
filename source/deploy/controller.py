@@ -1,29 +1,33 @@
-## Import
 
+## Import
+​
 import paho.mqtt.client as mqtt
 import requests
 from json import dumps as dumps_json, loads as loads_json
 from datetime import datetime
 import re
 import sqlite3
-
+​
 import asyncio
 import json
 import logging
 import websockets
-
+​
+import time
+from statistics import mean
+​
 ## Deklarace
-
+​
 SERVER = '147.228.124.230'  # RPi IP adress
 TOPIC = 'ite/#' # Team Blue
 DATABASE = 'data.db'
-
+​
 url_base = 'https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod'
 body_login = {'username': 'Blue', 'password': 'n96{ZYV7'}
-
-
+​
+​
 ## Login
-
+​
 def login(body_login):
     url_login = url_base+'/login'
     headers_base_login = {'Content-Type': 'application/json'}
@@ -35,9 +39,9 @@ def login(body_login):
     
     return login_data
 #teamUUID = 'f32c6941-bc2d-41b2-8bb3-cb6082427613' #blue
-
+​
 ## Get sensors
-
+​
 def get_sensors(teamUUID):
     url_sensors = url_base+'/sensors'
     headers_sensors = {'Content-Type': 'application/json', 'teamUUID': teamUUID}
@@ -48,9 +52,9 @@ def get_sensors(teamUUID):
     print('id:' + str(sensor_data['id']) + ', name: ' + sensor_data['name'] + ', sensorUUID: '+ sensor_data['sensorUUID'])
     return sensor_data
 #sensorUUIDblue = 'd384a529-6227-4133-afc9-4f5a16665f1f'
-
+​
 ## Spojeni s RPi
-
+​
 # Pripojeni k RPi serveru
 def on_connect(client, userdata, mid, qos):
     global SERVER
@@ -58,12 +62,12 @@ def on_connect(client, userdata, mid, qos):
     print('Connected to ' + SERVER + r'/' + TOPIC + ' with result code qos:', str(qos))
     
     client.subscribe(TOPIC) #subscribenuti topicu 
-
+​
 async def producer_handler(websocket, path):
     while True:
         message = await on_message()
         await websocket.send(message)
-
+​
 async def produce(message: str, host: str, port: int) -> None:
     async with websockets.connect(f"ws://{host}:{port}") as ws:
         await ws.send(message)
@@ -76,29 +80,27 @@ def on_message(client, userdata, msg):
     
     if (msg.payload == 'Q'):
         client.disconnect()
-
+​
     print(msg.topic, msg.qos, msg.payload)
     
     mes_dict = message_to_dict(str(msg.payload)) # msg to dict
     
+    uri = "ws://localhost:6789"
+    
     if mes_dict != None:
         store_to_db(mes_dict)
+ 
+        stats = get_stats(mes_dict['team_name'])
+        stats = ["%.2f" % stats[0], "%.2f" % stats[1], "%.2f" % stats[2]]
+        mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : 'Online', 'cur_temp' : "%.2f" % mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2]}
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host='localhost', port=6789))
+​
         if msg.topic == 'ite/blue':
             store_meas(teamUUID, sensorUUID, mes_dict)
-
-    uri = "ws://localhost:6789"
-    # TODO: tahat statistiku
-    #       osetrit vyjimku
-    #       zaokrouhlit
-
-    # list = get_stats()
-    stats = [10, 12, 14]
-    mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : 'Online', 'cur_temp' : mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2]}
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host='localhost', port=6789))
     
     return mes_dict
-
+​
 def store_to_db(mes_dict):
     
     connection = sqlite3.connect(DATABASE)
@@ -109,10 +111,10 @@ def store_to_db(mes_dict):
     #(source text, team_name text, created_on_timestamp real, temperature real)
     connection.commit()
     connection.close()
-
-
+​
+​
 ## Zpracovani zpravy
-
+​
 def message_to_dict(mes): #prevede MQTT zpravu na dict
     try:
         source = re.search("(source){1}", mes).group().strip()
@@ -120,7 +122,7 @@ def message_to_dict(mes): #prevede MQTT zpravu na dict
         created_on = re.search("(created_on){1}", mes).group().strip()
         temperature = re.search("(temperature){1}", mes).group().strip()
         #print(source + ", " + team_name + ", " + created_on + ", " + temperature)
-
+​
         source_value = re.search('(?<="source": ").+(?=", "team_name")', mes).group().strip() # "fake"/"real"
         team_name_value = re.search('(?<="team_name": ").+(?=", "created_on")', mes).group().strip() # barva tymu
         created_on_value = re.search('(?<="created_on": ").+(?=", "temperature")', mes).group().strip()
@@ -133,8 +135,8 @@ def message_to_dict(mes): #prevede MQTT zpravu na dict
         return None
         
     return mes_dict
-
-
+​
+​
 def dict_format_for_API(mes_dict): #specialni datetime format pro store measurement v API
     
     time_formated = datetime.strptime(mes_dict['created_on'], '%Y-%m-%dT%H:%M:%S.%f')
@@ -143,11 +145,11 @@ def dict_format_for_API(mes_dict): #specialni datetime format pro store measurem
     mes_dict.update({'created_on': time_formated_appended}) # prepise starej format casu na novej
     print(mes_dict)
     return mes_dict
-
+​
 def get_epoch_time_from_date(created_on): #pro created_on
     created_on_formated = datetime.strptime(created_on, '%Y-%m-%dT%H:%M:%S.%f')
     return created_on_formated.timestamp()
-
+​
 ## Store measurement
 def store_meas(teamUUID, sensorUUID, mes_dict): 
     url_measurement = url_base+'/measurements'
@@ -162,23 +164,75 @@ def store_meas(teamUUID, sensorUUID, mes_dict):
     print('Storing measurement to API for teamUUID = ' + teamUUID)
     print(response)
     return response
-
-
+​
+## Ziskani statistik
+def get_stats(team:str):
+    conn = sqlite3.connect('data.db')
+    c = conn.cursor()
+​
+​
+    today = str(datetime.now().date().day)
+    if len(today) == 1:
+        today = '0' + today
+​
+    this_month = str(datetime.now().date().month)
+    if len(this_month) == 1:
+        this_month = '0' + this_month
+​
+​
+    # list tuplů (čas, teplota) z databáze
+    team_temptime = c.execute('SELECT temperature, created_on_timestamp FROM measurements WHERE team_name = (?)',(team,)).fetchall()
+​
+    # převedení času na použitelné hodnoty
+    team_data = []
+    for i in range(0,len(team_temptime)): 
+        team_data.append((team_temptime[i][0],time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(team_temptime[i][1]))))    
+    
+    # zjištění dnešních teplot
+    valid_team_data = []
+    for i in range(0,len(team_data)):
+        if team_data[i][1][5:7] == this_month and team_data[i][1][8:10] == today:
+            valid_team_data.append(team_data[i])    
+​
+    # oddělení dnešních teplot
+    team_temp_valid = []
+    for i in range(0,len(valid_team_data)):
+        team_temp_valid.append(valid_team_data[i][0])
+        
+    if len(team_temp_valid) == 0:
+        return [None,None,None]
+​
+    ## Provedení statistik
+    
+    #team min temp
+    team_min = min(team_temp_valid)
+    print("Dnešní minimální teplota týmu "+team+": "+str(team_min))
+​
+    #team max temp
+    team_max = max(team_temp_valid)
+    print("Dnešní maximální teplota týmu " +team+": "+str(team_max))
+​
+    #team avg temp
+    team_avg = mean(team_temp_valid)
+    print("Dnešní průměrná teplota týmu " +team+": "+str(team_avg))
+    
+    return [team_min, team_max, team_avg]
+​
 # Main - pouziti standardu MQTT
-
+​
 if __name__ == '__main__':
-
+​
     teamUUID = login(body_login)['teamUUID']
-
+​
     sensor = get_sensors(teamUUID)
     sensorUUID = sensor['sensorUUID']
     
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
-
+​
     client.username_pw_set('mqtt_student', password='pivo')
-
+​
     client.connect(SERVER, 1883, 60)
     '''
     print('ahoj1')
