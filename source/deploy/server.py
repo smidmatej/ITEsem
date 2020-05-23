@@ -12,9 +12,18 @@ import os
 
 logging.basicConfig()
 
+blue_dict = dict()
+black_dict = dict()
+green_dict = dict()
+orange_dict = dict()
+pink_dict = dict()
+red_dict = dict()
+yellow_dict = dict()
+
+STATE = {"blue": blue_dict, 'black': black_dict, 'green': green_dict, 'orange': orange_dict, 'pink': pink_dict, 'red': red_dict, 'yellow': yellow_dict}
+STATE = {'blue': {'team': 'blue', 'Status': 'Online', 'cur_temp': 16.186622947054673, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'black': {'team': 'black', 'Status': 'Online', 'cur_temp': 18.060239732990127, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'green': {'team': 'green', 'Status': 'Online', 'cur_temp': 19.32267427635639, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'orange': {'team': 'orange', 'Status': 'Online', 'cur_temp': 9.238498490575797, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'pink': {'team': 'pink', 'Status': 'Online', 'cur_temp': 23.115052479850128, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'red': {'team': 'red', 'Status': 'Online', 'cur_temp': 20.562877016701933, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'yellow': {'team': 'yellow', 'Status': 'Online', 'cur_temp': 15.751056340939561, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}}
 
 STATE = {'blue': {'team': 'blue', 'Status': 'Default', 'cur_temp': 16.18, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'black': {'team': 'black', 'Status': 'Default', 'cur_temp': 18.06, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'green': {'team': 'green', 'Status': 'Default', 'cur_temp': 19.32, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'orange': {'team': 'orange', 'Status': 'Default', 'cur_temp': 9.23, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'pink': {'team': 'pink', 'Status': 'Default', 'cur_temp': 23.11, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'red': {'team': 'red', 'Status': 'Default', 'cur_temp': 20.56, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'yellow': {'team': 'yellow', 'Status': 'Default', 'cur_temp': 15.75, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}}
-
 USERS = set()
 
 WS_SERVER_REMOTE = "147.228.121.51"
@@ -111,7 +120,7 @@ if __name__ == "__main__":
     app = tornado.web.Application(handlers, **settings)
     
     app.listen(HTTP_PORT)
-    start_server = websockets.serve(counter, WS_SERVER_REMOTE   , WS_PORT)
+    start_server = websockets.serve(counter, WS_SERVER_LOCAL, WS_PORT)
 
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever() 

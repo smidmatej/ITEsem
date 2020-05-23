@@ -17,13 +17,17 @@ SERVER = '147.228.124.230'  # RPi IP adress
 TOPIC = 'ite/#' # Team Blue
 DATABASE = 'data.db'
 
-WS_SERVER = "147.228.121.51"
+WS_SERVER_REMOTE = "147.228.121.51"
+WS_SERVER_LOCAL = "127.0.0.1"
 WS_PORT = 6789
+
+LOW_TEMP = 0
+HIGH_TEMP = 30
 
 url_base = 'https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod'
 body_login = {'username': 'Blue', 'password': 'n96{ZYV7'}
 
-
+alert_state = False
 ## Login
 
 def login(body_login):
@@ -75,6 +79,7 @@ async def produce(message: str, host: str, port: int) -> None:
 def on_message(client, userdata, msg):
     global teamUUID
     global sensorUUID
+    global alert_state
     
     if (msg.payload == 'Q'):
         client.disconnect()
@@ -85,17 +90,28 @@ def on_message(client, userdata, msg):
     
     if mes_dict != None:
         store_to_db(mes_dict)
-        
-        stats = get_stats(mes_dict['team_name'])
-        stats = ["%.2f" % stats[0], "%.2f" % stats[1], "%.2f" % stats[2]]
-        mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : 'Online', 'cur_temp' : "%.2f" % mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2]}
         try:
+            # send to WS
+            stats = get_stats(mes_dict['team_name'])
+            stats = ["%.2f" % stats[0], "%.2f" % stats[1], "%.2f" % stats[2]]
+            mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : 'Online', 'cur_temp' : "%.2f" % mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2]}
             loop = asyncio.get_event_loop()
-            loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
+            loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER_LOCAL, port=WS_PORT))
         except:
             print('cant connect to server')
+            
         if msg.topic == 'ite/blue':
             store_meas(teamUUID, sensorUUID, mes_dict)
+        
+        #Posilani alertu a checkovani jestli jsme v alertovym stavu
+        if not alert_state:
+            if check_if_alert(mes_dict) and msg.topic == 'ite/blue':
+                #kdyz je teplota alertuhodna a poslal ji blue
+                alert_state = True
+                store_alert(teamUUID, sensorUUID, mes_dict)
+        elif not check_if_alert(mes_dict) and msg.topic == 'ite/blue':
+            alert_state = False
+        
     
     return mes_dict
 
@@ -135,7 +151,7 @@ def message_to_dict(mes): #prevede MQTT zpravu na dict
     return mes_dict
 
 
-def dict_format_for_API(mes_dict): #specialni datetime format pro store measurement v API
+def dict_format_for_API_meas(mes_dict): #specialni datetime format pro store measurement v API
     
     time_formated = datetime.strptime(mes_dict['created_on'], '%Y-%m-%dT%H:%M:%S.%f')
     time_formated_appended = time_formated.strftime("%Y-%m-%d") + 'T'+ time_formated.strftime("%H:%M:%S.") + str(int(time_formated.strftime("%f"))//1000) + '+' + '01:00'
@@ -153,7 +169,7 @@ def store_meas(teamUUID, sensorUUID, mes_dict):
     url_measurement = url_base+'/measurements'
     headers_base_measurement = {'Content-Type': 'application/json', 'teamUUID': teamUUID }
     
-    measurement = dict_format_for_API(mes_dict)
+    measurement = dict_format_for_API_meas(mes_dict)
     
     print(measurement)
     body_measurement = {'createdOn': measurement['created_on'], 'sensorUUID': sensorUUID, 'temperature': str(round(measurement['temperature'],1)), 'status': 'TEST'}
@@ -162,6 +178,36 @@ def store_meas(teamUUID, sensorUUID, mes_dict):
     print('Storing measurement to API for teamUUID = ' + teamUUID)
     print(response)
     return response
+
+def check_if_alert(mes_dict):
+    temperature = mes_dict['temperature']
+
+    if (temperature > HIGH_TEMP) or (temperature < LOW_TEMP):
+        return True
+    return False
+    
+def store_alert(teamUUID, sensorUUID, mes_dict): 
+    #Ulozi do API alert
+    url_alert = url_base+'/alerts'
+    headers_base_alert = {'Content-Type': 'application/json', 'teamUUID': teamUUID }
+    
+    alert = dict_format_for_API_alert(mes_dict)
+    
+    print(alert)
+    body_alert = {'createdOn': alert['created_on'], 'sensorUUID': sensorUUID, 'temperature': str(round(alert['temperature'],1)), 'lowTemperature': alert['lowTemperature'], 'highTemperature': alert['highTemperature']}
+    
+    response = requests.post(url_alert, data=dumps_json(body_alert), headers=headers_base_alert)
+    print('Storing alert to API for teamUUID = ' + teamUUID)
+    print('store_alert response from API: ' + response)
+    return response
+
+def dict_format_for_API_alert(mes_dict):
+    time_formated = datetime.strptime(mes_dict['created_on'], '%Y-%m-%dT%H:%M:%S.%f')
+    time_formated_appended = time_formated.strftime("%Y-%m-%d") + 'T'+ time_formated.strftime("%H:%M:%S.") + str(int(time_formated.strftime("%f"))//1000) + '+' + '01:00'
+    print(mes_dict)
+    
+    message = {'created_on': time_formated_appended, 'temperature': mes_dict['temperature'], 'lowTemperature': LOW_TEMP, 'highTemperature': HIGH_TEMP}
+    return message
 
 ## Ziskani statistik
 def get_stats(team:str):
