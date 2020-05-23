@@ -1,0 +1,41 @@
+Prezentace
+--------------------------
+
+1. Vytvoøení hlavního programu pro sbìr a export dat
+
+	øešení real time sbìru dat
+	- on_message: pøes mqtt topic sbírá zprávy, pøevod do dict pomocí regexu - tím zároveò kontrola dat, ukládání do databáze, posílá na frontend
+	- get_stats: zabudovaná metoda, která po pøijetí zprávy rekalkuluje dnešní prùm, max, min teplotu
+	- store_to_db: ukládání do databáze, øešené pomocí sqlite3
+	- store_meas: zapne se, když dostane blue zprávu, post na team API
+	- alert
+	- anomálie a chyby - try: except: bloky, Donger hlášení
+	
+	získání senzorù - pøihlášení na API a dotaz na senzory pomocí protokolu HTTP, HTTP øešeno knihovnou requests
+	sbìr dat - øešení pøes mqtt subscribe a poslouchání mqtt kanálu
+	kontrola dat - pøes regulární výrazy, pøi nedodržení námi stanoveného formátu data zahazujeme, ztráta dat nevadí kvùli jejich množství + nevíme, zda jsou validní
+	ukládání dat - sqlite3 databáze, data od poèátku mìøení
+	poèítání statistiky - pøes sqlite3 databázi
+	posílání dat - websockets posílají data na server, ten bìží pøes server.py
+
+2. Nasazení programu na cloud, webserver
+	
+	server.py
+	- obsluha komunikace mezi controller.py a webovou stránkou
+	- øešení pøes tornado
+	
+	získání dat - propojení s controler.py, pøes websockets	
+	posílání dat na server - na frontend pomocí websockets ve formátu json
+	pøipojení nového uživatele - server si drží interní stav - data, aby nový návštìvník stránky nemusel èekat
+	založení serveru - debian, uživatelský úèet pod jménem azure, schválnì nepøidán do sudoers group
+	komunikace s debianem - pøes protokol ssh, pro nahrání souborù scp
+	
+3. Vizualizace - webová stránka
+	
+	stránka vytvoøena pomocí html, css, js
+	vzhled - rychlá navigace pomocí rozbalovacího menu, výraznì vizualnì oddìleny jednotlivé týmy
+	seøazení týmù (skoro) abecednì
+	vyobrazení dat - pro každý tým pìt pøehledných hodnot, status nahoøe, aby návštìvník hned vìdìl, jak na tom senzor je
+	dynamická zmìna dat, uživatel nemusí stránku obnovovat, data se aktualizují sama
+	
+	
