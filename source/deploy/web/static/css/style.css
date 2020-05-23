@@ -499,7 +499,7 @@ button:focus {
 /*--------------------*/
 
 #mu-counter {
-	background-image: url("assets/images/counter-bg.jpeg");
+	background-image: url("../images/counter-bg.jpeg");
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;
@@ -510,7 +510,7 @@ button:focus {
 }
 
 #mu-counter-blue {
-	background-image: url("assets/images/blue_wp.png");
+	background-image: url("../images/blue_wp.png");
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;
@@ -521,7 +521,7 @@ button:focus {
 }
 
 #mu-counter-black {
-	background-image: url("assets/images/black_wp.png");
+	background-image: url("../images/black_wp.png");
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;
@@ -532,7 +532,7 @@ button:focus {
 }
 
 #mu-counter-green {
-	background-image: url("assets/images/green_wp.png");
+	background-image: url("../images/green_wp.png");
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;
@@ -543,7 +543,7 @@ button:focus {
 }
 
 #mu-counter-orange {
-	background-image: url("assets/images/orange_wp.png");
+	background-image: url("../images/orange_wp.png");
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;
@@ -554,7 +554,7 @@ button:focus {
 }
 
 #mu-counter-pink {
-	background-image: url("assets/images/pink_wp.png");
+	background-image: url("../images/pink_wp.png");
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;
@@ -565,7 +565,7 @@ button:focus {
 }
 
 #mu-counter-red {
-	background-image: url("assets/images/red_wp.png");
+	background-image: url("../images/red_wp.png");
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;
@@ -576,7 +576,7 @@ button:focus {
 }
 
 #mu-counter-yellow {
-	background-image: url("assets/images/yellow_wp.png");
+	background-image: url("../images/yellow_wp.png");
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;
@@ -926,7 +926,7 @@ button:focus {
 /*--------------------*/
 
 #mu-testimonials {
-	background-image: url("assets/images/testimonials-bg.jpeg");
+	background-image: url("../images/testimonials-bg.jpeg");
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;

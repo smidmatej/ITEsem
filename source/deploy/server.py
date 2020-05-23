@@ -8,6 +8,7 @@ import websockets
 import tornado.ioloop
 import tornado.web
 import tornado.template as template
+import os
 
 logging.basicConfig()
 
@@ -96,13 +97,22 @@ async def counter(websocket, path):
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render('website/index.html')
+        self.render('web/index.html')
 
 
 if __name__ == "__main__":
-    app = tornado.web.Application([
-        (r"/", MainHandler),
-    ])
+    handlers = [(r"/", MainHandler),
+
+                ]
+    settings = {
+            "debug": True,
+            "static_path": os.path.join(os.path.dirname(__file__), "web/static")
+            }
+    print(settings["static_path"])
+    print(os.path.dirname(__file__))
+    print(__file__)
+    app = tornado.web.Application(handlers, **settings)
+    
     app.listen(8889)
     start_server = websockets.serve(counter, "localhost", 6789)
 

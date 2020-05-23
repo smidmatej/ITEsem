@@ -7,22 +7,31 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Team Blue</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/icon" href="assets/imges/favicon.ico"/>
+    <link rel="shortcut icon" type="image/icon" href="{{ static_url("images/favicon.ico")}}"/>
+    
     <!-- Font Awesome -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <!-- Line icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
     <!-- Bootstrap -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ static_url("css/bootstrap.min.css")}}" rel="stylesheet">
+    
     <!-- Slick slider -->
-    <link href="assets/css/slick.css" rel="stylesheet">
+    <link href="{{ static_url("css/slick.css")}}" rel="stylesheet">
+    
     <!-- Gallery Lightbox -->
-    <link href="assets/css/magnific-popup.css" rel="stylesheet">
+    <link href="{{ static_url("css/magnific-popup.css")}}" rel="stylesheet">
+    
     <!-- Theme color -->
-    <link id="switcher" href="assets/css/theme-color/default-theme.css" rel="stylesheet">
+    
+    <!--
+    <link id="switcher" href="{{ static_url("css/default-theme.css")}}" rel="stylesheet">
+    -->
 
     <!-- Main Style -->
-    <link href="style.css" rel="stylesheet">
+    <!--<link href="static/css/style.css" rel="stylesheet"> -->
+    <link href="{{ static_url("css/style.css")}}" rel="stylesheet">
+    
 
     <!-- Fonts -->
 
@@ -61,7 +70,7 @@
 		      <a class="navbar-brand" href="#"><b>Team Blue</b></a>
 
 		      <!-- Image Logo -->
-		      <!-- <a class="navbar-brand" href="#"><img src="assets/images/logo.png"></a> -->
+		      <!-- <a class="navbar-brand" href="#"><img src="static/images/logo.png"></a> -->
 
 
 		    </div>
@@ -653,18 +662,20 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <!-- Bootstrap -->
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="{{ static_url("js/bootstrap.min.js")}}"></script>
+    
 	<!-- Slick slider -->
-    <script type="text/javascript" src="assets/js/slick.min.js"></script>
+    <script type="text/javascript" src="{{ static_url("js/slick.min.js")}}"></script>
     
 
     <!-- Ajax contact form  -->
-    <script type="text/javascript" src="assets/js/app.js"></script>
-    <script type="text/javascript" src="assets/js/async2.js"></script>
+    <script type="text/javascript" src="{{ static_url("js/app.js")}}"></script>
+    
+    <script type="text/javascript" src="{{ static_url("js/async2.js")}}"></script>
     
 	
     <!-- Custom js -->
-	<script type="text/javascript" src="assets/js/custom.js"></script>
+	<script type="text/javascript" src="{{ static_url("js/custom.js")}}"></script>
 	
     
   </body>
