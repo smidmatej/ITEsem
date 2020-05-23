@@ -29,7 +29,8 @@ def state_event():
 
 
 def users_event():
-    return json.dumps({"type": "users", "count": len(USERS)})
+    #return json.dumps({"type": "users", "count": len(USERS)})
+    return json.dumps(STATE)
 
 
 async def notify_state():

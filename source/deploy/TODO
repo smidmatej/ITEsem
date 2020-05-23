@@ -1,0 +1,4 @@
+server.py chce posilat celou webovku nejenom html
+Hejbnout s html aby hodnoty byly v jednom radku
+Zakomponovat getStats do controlleru + pridat posilani alertu
+Otestovat momentalni verzi na debian serveru
