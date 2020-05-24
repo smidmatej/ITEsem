@@ -9,6 +9,7 @@ import json
 import logging
 import websockets
 import time
+import copy
 from statistics import mean
 
 ## Deklarace
@@ -17,8 +18,9 @@ SERVER = '147.228.124.230'  # RPi IP adress
 TOPIC = 'ite/#' # Team Blue
 DATABASE = 'data.db'
 
-WS_SERVER_REMOTE = "147.228.121.51"
-WS_SERVER_LOCAL = "127.0.0.1"
+WS_SERVER = "147.228.121.51" #REMOTE
+#WS_SERVER = "127.0.0.1" #LOCAL
+
 WS_PORT = 6789
 
 LOW_TEMP = 0
@@ -96,7 +98,7 @@ def on_message(client, userdata, msg):
             stats = ["%.2f" % stats[0], "%.2f" % stats[1], "%.2f" % stats[2]]
             mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : 'Online', 'cur_temp' : "%.2f" % mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2]}
             loop = asyncio.get_event_loop()
-            loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER_LOCAL, port=WS_PORT))
+            loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
         except:
             print('cant connect to server')
             
@@ -155,10 +157,11 @@ def dict_format_for_API_meas(mes_dict): #specialni datetime format pro store mea
     
     time_formated = datetime.strptime(mes_dict['created_on'], '%Y-%m-%dT%H:%M:%S.%f')
     time_formated_appended = time_formated.strftime("%Y-%m-%d") + 'T'+ time_formated.strftime("%H:%M:%S.") + str(int(time_formated.strftime("%f"))//1000) + '+' + '01:00'
-    print(mes_dict)
-    mes_dict.update({'created_on': time_formated_appended}) # prepise starej format casu na novej
-    print(mes_dict)
-    return mes_dict
+    
+    mes_dict_formated = copy.deepcopy(mes_dict) #deepcopy, jinak se prepise hodnota externe
+    mes_dict_formated.update({'created_on': time_formated_appended}) # prepise starej format casu na novej
+    print(mes_dict_formated)
+    return mes_dict_formated
 
 def get_epoch_time_from_date(created_on): #pro created_on
     created_on_formated = datetime.strptime(created_on, '%Y-%m-%dT%H:%M:%S.%f')
@@ -198,7 +201,7 @@ def store_alert(teamUUID, sensorUUID, mes_dict):
     
     response = requests.post(url_alert, data=dumps_json(body_alert), headers=headers_base_alert)
     print('Storing alert to API for teamUUID = ' + teamUUID)
-    print('store_alert response from API: ' + response)
+    
     return response
 
 def dict_format_for_API_alert(mes_dict):
