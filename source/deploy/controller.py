@@ -212,6 +212,16 @@ def dict_format_for_API_alert(mes_dict):
     message = {'created_on': time_formated_appended, 'temperature': mes_dict['temperature'], 'lowTemperature': LOW_TEMP, 'highTemperature': HIGH_TEMP}
     return message
 
+def api_online(body_login):
+
+    login_data = login(body_login)  
+    
+    if login_data['id'] == 4 and login_data['username'] == 'Blue' and login_data['fullName'] == '?, ?, ?, ?' and login_data['year'] == 2020 and login_data['role'] == 'user' and login_data['teamUUID'] == 'f32c6941-bc2d-41b2-8bb3-cb6082427613':
+        return 'Online'
+    
+    else:
+        return 'Offline'
+
 ## Ziskani statistik
 def get_stats(team:str):
     conn = sqlite3.connect('data.db')
