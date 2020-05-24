@@ -9,21 +9,20 @@ import tornado.ioloop
 import tornado.web
 import tornado.template as template
 import os
+import sqlite3
+from get_history import get_history
 
 logging.basicConfig()
 
-blue_dict = dict()
-black_dict = dict()
-green_dict = dict()
-orange_dict = dict()
-pink_dict = dict()
-red_dict = dict()
-yellow_dict = dict()
-
-STATE = {"blue": blue_dict, 'black': black_dict, 'green': green_dict, 'orange': orange_dict, 'pink': pink_dict, 'red': red_dict, 'yellow': yellow_dict}
-STATE = {'blue': {'team': 'blue', 'Status': 'Online', 'cur_temp': 16.186622947054673, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'black': {'team': 'black', 'Status': 'Online', 'cur_temp': 18.060239732990127, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'green': {'team': 'green', 'Status': 'Online', 'cur_temp': 19.32267427635639, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'orange': {'team': 'orange', 'Status': 'Online', 'cur_temp': 9.238498490575797, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'pink': {'team': 'pink', 'Status': 'Online', 'cur_temp': 23.115052479850128, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'red': {'team': 'red', 'Status': 'Online', 'cur_temp': 20.562877016701933, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'yellow': {'team': 'yellow', 'Status': 'Online', 'cur_temp': 15.751056340939561, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}}
-
 STATE = {'blue': {'team': 'blue', 'Status': 'Default', 'cur_temp': 16.18, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'black': {'team': 'black', 'Status': 'Default', 'cur_temp': 18.06, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'green': {'team': 'green', 'Status': 'Default', 'cur_temp': 19.32, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'orange': {'team': 'orange', 'Status': 'Default', 'cur_temp': 9.23, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'pink': {'team': 'pink', 'Status': 'Default', 'cur_temp': 23.11, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'red': {'team': 'red', 'Status': 'Default', 'cur_temp': 20.56, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}, 'yellow': {'team': 'yellow', 'Status': 'Default', 'cur_temp': 15.75, 'min_temp': 10, 'max_temp': 12, 'avg_temp': 14}}
+
+HISTORY = {'blue': {'y': [16.18, 12.5], 'x': [1, 2]},
+           'black': {'y': [16.18, 12.5], 'x': [1, 2]},
+           'green': {'y': [16.18, 12.5], 'x': [1, 2]},
+           'orange': {'y': [16.18, 12.5], 'x': [1, 2]},
+           'pink': {'y': [16.18, 12.5], 'x': [1, 2]},
+           'red': {'y': [16.18, 12.5], 'x': [1, 2]},
+           'yellow': {'y': [16.18, 12.5], 'x': [1, 2]}}
 USERS = set()
 
 #WS_SERVER = "147.228.121.51" #REMOTE
@@ -32,14 +31,34 @@ WS_PORT = 6789
 HTTP_PORT = 8889
 
 def state_event():
-    return json.dumps(STATE)
+    message = {'STATE': STATE}
+    return json.dumps(message)
 
 
-def users_event():
+def new_user_login():
     #return json.dumps({"type": "users", "count": len(USERS)})
-    return json.dumps(STATE)
+    update_history() #aktualizuje promenou HISTORY z databaze
+    message = {'STATE': STATE, 'HISTORY': HISTORY} # pri pripojeni noveho klienta posle momentalni stav a data z minulosti
+    print(HISTORY)
+    return json.dumps(message)
 
-
+def update_history():
+    history_blue = get_history('blue')
+    history_black = get_history('black')
+    history_green = get_history('green')
+    history_orange = get_history('orange')
+    history_pink = get_history('pink')
+    history_red = get_history('red')
+    history_yellow = get_history('yellow')
+    
+    HISTORY['blue'] = history_blue
+    HISTORY['black'] = history_black
+    HISTORY['green'] = history_green
+    HISTORY['orange'] = history_orange
+    HISTORY['pink'] = history_pink
+    HISTORY['red'] = history_red
+    HISTORY['yellow'] = history_yellow
+    
 async def notify_state():
     if USERS:  # asyncio.wait doesn't accept an empty list
         message = state_event()
@@ -48,7 +67,7 @@ async def notify_state():
 
 async def notify_users():
     if USERS:  # asyncio.wait doesn't accept an empty list
-        message = users_event()
+        message = new_user_login()
         await asyncio.wait([user.send(message) for user in USERS])
 
 

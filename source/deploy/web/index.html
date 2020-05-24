@@ -25,7 +25,7 @@
     <!-- Theme color -->
     
     <!--
-    <link id="switcher" href="{{ static_url("css/default-theme.css")}}" rel="stylesheet">
+    <link id="switcher" href="{{ static_url("css/theme-color/default-theme.css")}}" rel="stylesheet">
     -->
 
     <!-- Main Style -->
@@ -108,10 +108,21 @@
 							<div class="mu-counter-block">
 							<div class="col">
                                 <div class="row">
-                                    <div class="mu-single-counter">
-                                        <i class="icon-power"></i>
-                                        <div class="counter-value blue_stat">0</div>
-                                        <h5 class="mu-counter-name">STATUS</h5>
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="mu-single-counter">
+                                            <i class="icon-power"></i>
+                                            <div class="counter-value textBox">0</div>
+                                            <h5 class="mu-counter-name">STATUS</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="mu-single-counter">
+                                            <i class="icon-power"></i>
+                                            <div class="counter-value blue_stat">0</div>
+                                            <h5 class="mu-counter-name">STATUS</h5>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -133,10 +144,12 @@
 									</div>
                                 </div>
                                 <div class="row">
-                                    <div class="mu-single-counter">
-                                        <i class="icon-drop"></i>
-                                        <div class="counter-value blue_min">0</div>
-                                        <h5 class="mu-counter-name">DAILY MINIMUM</h5>
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="mu-single-counter">
+                                            <i class="icon-drop"></i>
+                                            <div class="counter-value blue_min">0</div>
+                                            <h5 class="mu-counter-name">DAILY MINIMUM</h5>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -150,7 +163,14 @@
                                 </div>
                                 
 							</div>
-								
+                            
+                            <div class="col">
+                                <div class="row">
+                                    <div class="container">
+                                        <canvas id="blueChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
 							
 
 
@@ -672,7 +692,7 @@
 	<script type="text/javascript" src="{{ static_url("js/custom.js")}}"></script>
 	
 	<!-- Chart.js -->
-	<script type="text/javascript" src="chart.js"></script>
+	<script type="text/javascript" src="{{ static_url("js/chart.js")}}"></script>
     
   </body>
 </html>

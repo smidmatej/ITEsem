@@ -44,8 +44,8 @@ var pink_avg_temp = document.querySelector('.pink_avg')
 websocket = new WebSocket("ws://" + window.location.hostname + ":6789/");
 blue_status.textContent = "ws://" + window.location.hostname + ":6789/";
             websocket.onmessage = function (event) {
-                data = JSON.parse(event.data);
-                
+                message = JSON.parse(event.data);
+                    data = message.STATE
                 
                         blue_status.textContent = data.blue.Status;
                         blue_cur_temp.textContent = data.blue.cur_temp;
