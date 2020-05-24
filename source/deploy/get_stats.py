@@ -1,9 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
 import sqlite3
 from datetime import datetime
 import time
 from statistics import mean
 
-def get_stats(team:str):
+def get_stats(team):
     conn = sqlite3.connect('data.db')
     c = conn.cursor()
 
@@ -40,15 +44,13 @@ def get_stats(team:str):
     
     #team min temp
     team_min = min(team_temp_valid)
-    print("Dnešní minimální teplota týmu "+team+": "+str(team_min))
 
     #team max temp
     team_max = max(team_temp_valid)
-    print("Dnešní maximální teplota týmu " +team+": "+str(team_max))
 
     #team avg temp
     team_avg = mean(team_temp_valid)
-    print("Dnešní průměrná teplota týmu " +team+": "+str(team_avg))
+    
     
     return [team_min, team_max, team_avg]
 

@@ -10,7 +10,7 @@ import tornado.web
 import tornado.template as template
 import os
 import sqlite3
-from get_history import get_history
+from get_history import get_history, get_most_recent_db_entry_for_team
 
 logging.basicConfig()
 
@@ -25,13 +25,16 @@ HISTORY = {'blue': {'y': [16.18, 12.5], 'x': [1, 2]},
            'yellow': {'y': [16.18, 12.5], 'x': [1, 2]}}
 USERS = set()
 
+TEAM_NAMES = ('blue', 'black', 'green', 'orange', 'pink', 'red', 'yellow')
+
 #WS_SERVER = "147.228.121.51" #REMOTE
 WS_SERVER = "127.0.0.1" #LOCAL
 WS_PORT = 6789
 HTTP_PORT = 8889
 
 def state_event():
-    message = {'STATE': STATE}
+    update_history()
+    message = {'STATE': STATE, 'HISTORY': HISTORY}
     return json.dumps(message)
 
 
@@ -39,10 +42,11 @@ def new_user_login():
     #return json.dumps({"type": "users", "count": len(USERS)})
     update_history() #aktualizuje promenou HISTORY z databaze
     message = {'STATE': STATE, 'HISTORY': HISTORY} # pri pripojeni noveho klienta posle momentalni stav a data z minulosti
-    print(HISTORY)
+    #print(HISTORY)
     return json.dumps(message)
 
 def update_history():
+    '''
     history_blue = get_history('blue')
     history_black = get_history('black')
     history_green = get_history('green')
@@ -58,6 +62,23 @@ def update_history():
     HISTORY['pink'] = history_pink
     HISTORY['red'] = history_red
     HISTORY['yellow'] = history_yellow
+    '''
+    
+    for team_name in TEAM_NAMES:
+        HISTORY[team_name] = get_history(team_name)
+
+def initialize_state():
+    for team_name in TEAM_NAMES:
+        STATE[team_name] = get_most_recent_db_entry_for_team(team_name)
+    
+    '''
+    STATE['black'] = get_most_recent_db_entry_for_team('black')
+    STATE['green'] = get_most_recent_db_entry_for_team('green')
+    STATE['orange'] = get_most_recent_db_entry_for_team('orange')
+    STATE['pink'] = get_most_recent_db_entry_for_team('pink')
+    STATE['red'] = get_most_recent_db_entry_for_team('red')
+    STATE['yellow'] = get_most_recent_db_entry_for_team('yellow')
+    '''
     
 async def notify_state():
     if USERS:  # asyncio.wait doesn't accept an empty list
@@ -90,8 +111,12 @@ async def counter(websocket, path):
         await websocket.send(state_event())
         async for message in websocket:
             data = json.loads(message)
-            print(data)
+            #print(data)
             print('Number of users' + str(len(USERS)))
+            for team_name in TEAM_NAMES:
+                if data['team'] == team_name:
+                    STATE[team_name] = data
+            '''
             if data['team'] == 'blue':
                 STATE['blue'] = data
             
@@ -114,7 +139,8 @@ async def counter(websocket, path):
                 STATE['yellow'] = data
             else:
                 print('server dostal dato krery neodpovida formatu')
-            print('STATE' + str(STATE))
+                '''
+            #print('STATE' + str(STATE))
             await notify_state()
     finally:
         await unregister(websocket)
@@ -126,6 +152,9 @@ class MainHandler(tornado.web.RequestHandler):
 
 
 if __name__ == "__main__":
+    
+    initialize_state()
+    
     handlers = [(r"/", MainHandler),
 
                 ]

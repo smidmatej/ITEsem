@@ -95,8 +95,7 @@ def on_message(client, userdata, msg):
         try:
             # send to WS
             stats = get_stats(mes_dict['team_name'])
-            stats = ["%.2f" % stats[0], "%.2f" % stats[1], "%.2f" % stats[2]]
-            mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : 'Online', 'cur_temp' : "%.2f" % mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2]}
+            mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : 'Online', 'cur_temp' : mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2]}
             loop = asyncio.get_event_loop()
             loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
         except:

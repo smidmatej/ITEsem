@@ -42,54 +42,54 @@ var pink_avg_temp = document.querySelector('.pink_avg')
 
 //websocket = new WebSocket("ws://127.0.0.1:6789/");
 websocket = new WebSocket("ws://" + window.location.hostname + ":6789/");
-blue_status.textContent = "ws://" + window.location.hostname + ":6789/";
+
             websocket.onmessage = function (event) {
                 message = JSON.parse(event.data);
                     data = message.STATE
                 
                         blue_status.textContent = data.blue.Status;
-                        blue_cur_temp.textContent = data.blue.cur_temp;
-                        blue_min_temp.textContent = data.blue.min_temp;
-                        blue_max_temp.textContent = data.blue.max_temp;
-                        blue_avg_temp.textContent = data.blue.avg_temp;
+                        blue_cur_temp.textContent = data.blue.cur_temp.toFixed(2);
+                        blue_min_temp.textContent = data.blue.min_temp.toFixed(2);
+                        blue_max_temp.textContent = data.blue.max_temp.toFixed(2);
+                        blue_avg_temp.textContent = data.blue.avg_temp.toFixed(2);
                         
                     	
 
                     	black_status.textContent = data.black.Status;
-                        black_cur_temp.textContent = data.black.cur_temp;
-                        black_min_temp.textContent = data.black.min_temp;
-                        black_max_temp.textContent = data.black.max_temp;
-                        black_avg_temp.textContent = data.black.avg_temp;
+                        black_cur_temp.textContent = data.black.cur_temp.toFixed(2);
+                        black_min_temp.textContent = data.black.min_temp.toFixed(2);
+                        black_max_temp.textContent = data.black.max_temp.toFixed(2);
+                        black_avg_temp.textContent = data.black.avg_temp.toFixed(2);
                         
                         green_status.textContent = data.green.Status;
-                        green_cur_temp.textContent = data.green.cur_temp;
-                        green_min_temp.textContent = data.green.min_temp;
-                        green_max_temp.textContent = data.green.max_temp;
-                        green_avg_temp.textContent = data.green.avg_temp;
+                        green_cur_temp.textContent = data.green.cur_temp.toFixed(2);
+                        green_min_temp.textContent = data.green.min_temp.toFixed(2);
+                        green_max_temp.textContent = data.green.max_temp.toFixed(2);
+                        green_avg_temp.textContent = data.green.avg_temp.toFixed(2);
                         
                         orange_status.textContent = data.orange.Status;
-                        orange_cur_temp.textContent = data.orange.cur_temp;
-                        orange_min_temp.textContent = data.orange.min_temp;
-                        orange_max_temp.textContent = data.orange.max_temp;
-                        orange_avg_temp.textContent = data.orange.avg_temp;
+                        orange_cur_temp.textContent = data.orange.cur_temp.toFixed(2);
+                        orange_min_temp.textContent = data.orange.min_temp.toFixed(2);
+                        orange_max_temp.textContent = data.orange.max_temp.toFixed(2);
+                        orange_avg_temp.textContent = data.orange.avg_temp.toFixed(2);
                         
                         pink_status.textContent = data.pink.Status;
-                        pink_cur_temp.textContent = data.pink.cur_temp;
-                        pink_min_temp.textContent = data.pink.min_temp;
-                        pink_max_temp.textContent = data.pink.max_temp;
-                        pink_avg_temp.textContent = data.pink.avg_temp;
+                        pink_cur_temp.textContent = data.pink.cur_temp.toFixed(2);
+                        pink_min_temp.textContent = data.pink.min_temp.toFixed(2);
+                        pink_max_temp.textContent = data.pink.max_temp.toFixed(2);
+                        pink_avg_temp.textContent = data.pink.avg_temp.toFixed(2);
                         
                         red_status.textContent = data.red.Status;
-                        red_cur_temp.textContent = data.red.cur_temp;
-                        red_max_temp.textContent = data.red.max_temp;
-                        red_min_temp.textContent = data.red.min_temp;
-                        red_avg_temp.textContent = data.red.avg_temp;
+                        red_cur_temp.textContent = data.red.cur_temp.toFixed(2);
+                        red_max_temp.textContent = data.red.max_temp.toFixed(2);
+                        red_min_temp.textContent = data.red.min_temp.toFixed(2);
+                        red_avg_temp.textContent = data.red.avg_temp.toFixed(2);
                         
                         yellow_status.textContent = data.yellow.Status;
-                        yellow_cur_temp.textContent = data.yellow.cur_temp;
-                        yellow_min_temp.textContent = data.yellow.min_temp;
-                        yellow_max_temp.textContent = data.yellow.max_temp;
-                        yellow_avg_temp.textContent = data.yellow.avg_temp;
+                        yellow_cur_temp.textContent = data.yellow.cur_temp.toFixed(2);
+                        yellow_min_temp.textContent = data.yellow.min_temp.toFixed(2);
+                        yellow_max_temp.textContent = data.yellow.max_temp.toFixed(2);
+                        yellow_avg_temp.textContent = data.yellow.avg_temp.toFixed(2);
 
                 
             };
