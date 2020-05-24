@@ -106,60 +106,52 @@
 							<h2 class="mu-heading-title">BLUE</h2>
 
 							<div class="mu-counter-block">
-								<div class="row">
-									<!-- Start Single Counter -->
-									<div class="col">
-										<div class="mu-single-counter">
-											<i class="icon-power"></i>
-											<div class="counter-value blue_stat">0</div>
-											<h5 class="mu-counter-name">STATUS</h5>
-										</div>
-									</div>
-									<!-- / Single Counter -->
-								</div>
-								<div class="row">
-									<!-- Start Single Counter -->
-									<div class="col-md-3 col-sm-6">
+							<div class="col">
+                                <div class="row">
+                                    <div class="mu-single-counter">
+                                        <i class="icon-power"></i>
+                                        <div class="counter-value blue_stat">0</div>
+                                        <h5 class="mu-counter-name">STATUS</h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6">
 										<div class="mu-single-counter">
 											<i class="icon-feed"></i>
 											<div class="counter-value blue_cur">0</div>
 											<h5 class="mu-counter-name">CURRENT TEMPERATURE</h5>
 										</div>
 									</div>
-									<!-- / Single Counter -->
-
-									<!-- Start Single Counter -->
-									<div class="col-md-3 col-sm-6">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6">
 										<div class="mu-single-counter">
 											<i class="icon-fire"></i>
 											<div class="counter-value blue_max">0</div>
 											<h5 class="mu-counter-name">DAILY MAXIMUM</h5>
 										</div>
 									</div>
-									<!-- / Single Counter -->
-
-									<!-- Start Single Counter -->
-									<div class="col-md-3 col-sm-6">
-										<div class="mu-single-counter">
-											<i class="icon-drop"></i>
-											<div class="counter-value blue_min">0</div>
-											<h5 class="mu-counter-name">DAILY MINIMUM</h5>
-										</div>
-									</div>
-									<!-- / Single Counter -->
-
-									<!-- Start Single Counter -->
-									<div class="col-md-3 col-sm-6">
+                                </div>
+                                <div class="row">
+                                    <div class="mu-single-counter">
+                                        <i class="icon-drop"></i>
+                                        <div class="counter-value blue_min">0</div>
+                                        <h5 class="mu-counter-name">DAILY MINIMUM</h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6">
 										<div class="mu-single-counter">
 											<i class="icon-chart"></i>
 											<div class="counter-value blue_avg">0</div>
 											<h5 class="mu-counter-name">DAILY AVERAGE</h5>
 										</div>
 									</div>
-									<!-- / Single Counter -->
-
-								</div>
+                                </div>
+                                
 							</div>
+								
+							
 
 
 						</div>
@@ -660,6 +652,9 @@
 	
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <!-- Bootstrap -->
     <script src="{{ static_url("js/bootstrap.min.js")}}"></script>
@@ -667,7 +662,6 @@
 	<!-- Slick slider -->
     <script type="text/javascript" src="{{ static_url("js/slick.min.js")}}"></script>
     
-
     <!-- Ajax contact form  -->
     <script type="text/javascript" src="{{ static_url("js/app.js")}}"></script>
     
@@ -677,6 +671,8 @@
     <!-- Custom js -->
 	<script type="text/javascript" src="{{ static_url("js/custom.js")}}"></script>
 	
+	<!-- Chart.js -->
+	<script type="text/javascript" src="chart.js"></script>
     
   </body>
 </html>
