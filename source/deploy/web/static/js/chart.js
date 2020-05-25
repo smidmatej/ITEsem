@@ -1,6 +1,6 @@
 
 //document.querySelector('.textBox').textContent = '2'
-
+Chart.defaults.global.legend.display = false;
 websocket = new WebSocket("ws://" + window.location.hostname + ":6789/");
 
 websocket.onmessage = function (event) {
@@ -14,9 +14,9 @@ websocket.onmessage = function (event) {
         data: {
             labels: message.HISTORY.blue.x, //x values
             datasets: [{
-                label: 'My First dataset',
+                label: 'Blue chart',
                 //backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 255, 255)',
+                borderColor: 'rgb(191, 103, 52)',
                 data: message.HISTORY.blue.y //y values
                 }]
             },
@@ -45,7 +45,7 @@ websocket.onmessage = function (event) {
             datasets: [{
                 label: 'My First dataset',
                 //backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 255, 255)',
+                borderColor: 'rgb(191, 103, 52)',
                 data: message.HISTORY.black.y //y values
                 }]
             },
@@ -61,7 +61,7 @@ websocket.onmessage = function (event) {
             datasets: [{
                 label: 'My First dataset',
                 //backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 255, 255)',
+                borderColor: 'rgb(191, 103, 52)',
                 data: message.HISTORY.green.y //y values
                 }]
             },
@@ -77,7 +77,7 @@ websocket.onmessage = function (event) {
             datasets: [{
                 label: 'My First dataset',
                 //backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 255, 255)',
+                borderColor: 'rgb(191, 103, 52)',
                 data: message.HISTORY.orange.y //y values
                 }]
             },
@@ -93,7 +93,7 @@ websocket.onmessage = function (event) {
             datasets: [{
                 label: 'My First dataset',
                 //backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 255, 255)',
+                borderColor: 'rgb(191, 103, 52)',
                 data: message.HISTORY.pink.y //y values
                 }]
             },
@@ -109,7 +109,7 @@ websocket.onmessage = function (event) {
             datasets: [{
                 label: 'My First dataset',
                 //backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 255, 255)',
+                borderColor: 'rgb(191, 103, 52)',
                 data: message.HISTORY.red.y //y values
                 }]
             },
@@ -125,7 +125,7 @@ websocket.onmessage = function (event) {
             datasets: [{
                 label: 'My First dataset',
                 //backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 255, 255)',
+                borderColor: 'rgb(191, 103, 52)',
                 data: message.HISTORY.yellow.y //y values
                 }]
             },
