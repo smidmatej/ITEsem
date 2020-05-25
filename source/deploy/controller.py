@@ -11,6 +11,7 @@ import websockets
 import time
 import copy
 from statistics import mean
+from get_stats import get_stats
 
 ## Deklarace
 
@@ -220,7 +221,7 @@ def api_online(body_login):
     
     else:
         return 'Offline'
-
+'''
 ## Ziskani statistik
 def get_stats(team:str):
     conn = sqlite3.connect('data.db')
@@ -272,7 +273,7 @@ def get_stats(team:str):
     print("Dnešní průměrná teplota týmu " +team+": "+str(team_avg))
     
     return [team_min, team_max, team_avg]
-
+'''
 # Main - pouziti standardu MQTT
 
 if __name__ == '__main__':
