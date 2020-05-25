@@ -46,39 +46,12 @@ def new_user_login():
     return json.dumps(message)
 
 def update_history():
-    '''
-    history_blue = get_history('blue')
-    history_black = get_history('black')
-    history_green = get_history('green')
-    history_orange = get_history('orange')
-    history_pink = get_history('pink')
-    history_red = get_history('red')
-    history_yellow = get_history('yellow')
-    
-    HISTORY['blue'] = history_blue
-    HISTORY['black'] = history_black
-    HISTORY['green'] = history_green
-    HISTORY['orange'] = history_orange
-    HISTORY['pink'] = history_pink
-    HISTORY['red'] = history_red
-    HISTORY['yellow'] = history_yellow
-    '''
-    
     for team_name in TEAM_NAMES:
         HISTORY[team_name] = get_history(team_name)
 
 def initialize_state():
     for team_name in TEAM_NAMES:
         STATE[team_name] = get_most_recent_db_entry_for_team(team_name)
-    
-    '''
-    STATE['black'] = get_most_recent_db_entry_for_team('black')
-    STATE['green'] = get_most_recent_db_entry_for_team('green')
-    STATE['orange'] = get_most_recent_db_entry_for_team('orange')
-    STATE['pink'] = get_most_recent_db_entry_for_team('pink')
-    STATE['red'] = get_most_recent_db_entry_for_team('red')
-    STATE['yellow'] = get_most_recent_db_entry_for_team('yellow')
-    '''
     
 async def notify_state():
     if USERS:  # asyncio.wait doesn't accept an empty list
@@ -116,30 +89,6 @@ async def counter(websocket, path):
             for team_name in TEAM_NAMES:
                 if data['team'] == team_name:
                     STATE[team_name] = data
-            '''
-            if data['team'] == 'blue':
-                STATE['blue'] = data
-            
-            elif data['team'] == 'black':
-                STATE['black'] = data
-                
-            elif data['team'] == 'green':
-                STATE['green'] = data
-                
-            elif data['team'] == 'orange':
-                STATE['orange'] = data
-                
-            elif data['team'] == 'pink':
-                STATE['pink'] = data
-                
-            elif data['team'] == 'red':
-                STATE['red'] = data
-                
-            elif data['team'] == 'yellow':
-                STATE['yellow'] = data
-            else:
-                print('server dostal dato krery neodpovida formatu')
-                '''
             #print('STATE' + str(STATE))
             await notify_state()
     finally:
