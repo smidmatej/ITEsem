@@ -33,7 +33,7 @@ def get_stats(team):
     output = cursor.fetchall() #casove hodnoty
     
     temperatures = [item[0] for item in output] #teplotni hodnoty
-    print(temperatures)
+
     
     '''
     # převedení času na použitelné hodnoty

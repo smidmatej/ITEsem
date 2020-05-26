@@ -1,0 +1,131 @@
+11:50:34,470 root INFO Logged in as Blue
+11:50:34,474 root INFO Getting sensor for teamUUID: f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:50:34,795 root INFO id:3, name: sensor3, sensorUUID: d384a529-6227-4133-afc9-4f5a16665f1f
+11:50:35,307 root INFO I'm afraid your journey ends here, traveler ʕᵒ̌n ᵒ̌ʔ 
+11:51:35,419 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:51:35.365+01:00', 'temperature': 12.078535777816775}
+11:51:35,419 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:51:35.365+01:00', 'temperature': 12.078535777816775}
+11:51:35,663 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:51:35,663 root INFO <Response [200]>
+11:52:35,521 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:52:35.463+01:00', 'temperature': 13.231003271741866}
+11:52:35,521 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:52:35.463+01:00', 'temperature': 13.231003271741866}
+11:52:35,782 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:52:35,782 root INFO <Response [200]>
+11:53:35,622 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:53:35.561+01:00', 'temperature': 12.435500576675611}
+11:53:35,622 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:53:35.561+01:00', 'temperature': 12.435500576675611}
+11:53:35,936 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:53:35,937 root INFO <Response [200]>
+11:54:35,725 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:54:35.659+01:00', 'temperature': 13.168543962671109}
+11:54:35,725 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:54:35.659+01:00', 'temperature': 13.168543962671109}
+11:54:35,967 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:54:35,967 root INFO <Response [200]>
+11:54:56,991 root INFO Logged in as Blue
+11:54:56,991 root INFO ('teamUUID:', 'f32c6941-bc2d-41b2-8bb3-cb6082427613')
+11:54:56,992 root INFO Getting sensor for teamUUID: f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:54:57,185 root INFO id:3, name: sensor3, sensorUUID: d384a529-6227-4133-afc9-4f5a16665f1f
+11:54:57,286 root INFO ('Connected to 147.228.124.230/ite/# with result code qos:', '0')
+11:55:32,101 root INFO Logged in as Blue
+11:55:32,101 root INFO ('teamUUID:', 'f32c6941-bc2d-41b2-8bb3-cb6082427613')
+11:55:32,102 root INFO Getting sensor for teamUUID: f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:55:32,340 root INFO id:3, name: sensor3, sensorUUID: d384a529-6227-4133-afc9-4f5a16665f1f
+11:55:32,410 root INFO ('Connected to 147.228.124.230/ite/# with result code qos:', '0')
+11:55:35,820 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:55:35.756+01:00', 'temperature': 12.824920294303606}
+11:55:35,820 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:55:35.756+01:00', 'temperature': 12.824920294303606}
+11:55:36,116 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:55:36,116 root INFO <Response [200]>
+11:56:35,919 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:56:35.853+01:00', 'temperature': 12.48538258628153}
+11:56:35,919 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:56:35.853+01:00', 'temperature': 12.48538258628153}
+11:56:36,192 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:56:36,192 root INFO <Response [200]>
+11:56:37,568 root INFO Logged in as Blue
+11:56:37,568 root INFO ('teamUUID:', 'f32c6941-bc2d-41b2-8bb3-cb6082427613')
+11:56:37,568 root INFO Getting sensor for teamUUID: f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:56:37,898 root INFO id:3, name: sensor3, sensorUUID: d384a529-6227-4133-afc9-4f5a16665f1f
+11:56:37,971 root INFO ('Connected to 147.228.124.230/ite/# with result code qos:', '0')
+11:57:31,971 root INFO Logged in as Blue
+11:57:31,972 root INFO ('teamUUID:', 'f32c6941-bc2d-41b2-8bb3-cb6082427613')
+11:57:31,972 root INFO Getting sensor for teamUUID: f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:57:32,208 root INFO id:3, name: sensor3, sensorUUID: d384a529-6227-4133-afc9-4f5a16665f1f
+11:57:32,254 root INFO ('Connected to 147.228.124.230/ite/# with result code qos:', '0')
+11:57:33,480 root INFO ite/yellow0b'{"source": "fake", "team_name": "yellow", "created_on": "2020-05-26T11:57:33.440310", "temperature": 12.63375288116098}'
+11:57:35,637 root INFO ite/black0b'{"source": "fake", "team_name": "black", "created_on": "2020-05-26T11:57:35.597941", "temperature": 13.163861137546927}'
+11:57:35,796 root INFO ite/pink0b'{"source": "fake", "team_name": "pink", "created_on": "2020-05-26T11:57:35.756024", "temperature": 15.576846047458105}'
+11:57:36,5 root INFO ite/blue0b'{"source": "fake", "team_name": "blue", "created_on": "2020-05-26T11:57:35.952173", "temperature": 13.122441388351994}'
+11:57:36,31 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:57:35.952+01:00', 'temperature': 13.122441388351994}
+11:57:36,31 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:57:35.952+01:00', 'temperature': 13.122441388351994}
+11:57:36,265 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:57:36,266 root INFO <Response [200]>
+11:57:46,442 root INFO ite/orange0b'{"source": "fake", "team_name": "orange", "created_on": "2020-05-26T11:57:46.404043", "temperature": 11.013215196890467}'
+11:58:19,641 root INFO ite/green0b'{"source": "fake", "team_name": "green", "created_on": "2020-05-26T11:58:19.598291", "temperature": 16.4020963102145}'
+11:58:22,510 root INFO ite/red0b'{"source": "fake", "team_name": "red", "created_on": "2020-05-26T11:58:22.471895", "temperature": 16.059779735685105}'
+11:58:33,553 root INFO ite/yellow0b'{"source": "fake", "team_name": "yellow", "created_on": "2020-05-26T11:58:33.516043", "temperature": 12.685803601870605}'
+11:58:35,739 root INFO ite/black0b'{"source": "fake", "team_name": "black", "created_on": "2020-05-26T11:58:35.696164", "temperature": 13.685191540687503}'
+11:58:35,743 root INFO cant connect to server
+11:58:35,836 root INFO ite/pink0b'{"source": "fake", "team_name": "pink", "created_on": "2020-05-26T11:58:35.797465", "temperature": 15.635997859664272}'
+11:58:35,838 root INFO cant connect to server
+11:58:36,88 root INFO ite/blue0b'{"source": "fake", "team_name": "blue", "created_on": "2020-05-26T11:58:36.050272", "temperature": 13.164191195228128}'
+11:58:36,100 root INFO cant connect to server
+11:58:36,101 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:58:36.50+01:00', 'temperature': 13.164191195228128}
+11:58:36,101 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:58:36.50+01:00', 'temperature': 13.164191195228128}
+11:58:36,326 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:58:36,327 root INFO <Response [200]>
+11:58:46,540 root INFO ite/orange0b'{"source": "fake", "team_name": "orange", "created_on": "2020-05-26T11:58:46.501758", "temperature": 10.68636598248457}'
+11:59:19,685 root INFO ite/green0b'{"source": "fake", "team_name": "green", "created_on": "2020-05-26T11:59:19.645478", "temperature": 15.677122498447146}'
+11:59:22,610 root INFO ite/red0b'{"source": "fake", "team_name": "red", "created_on": "2020-05-26T11:59:22.569913", "temperature": 16.0332271149445}'
+11:59:33,654 root INFO ite/yellow0b'{"source": "fake", "team_name": "yellow", "created_on": "2020-05-26T11:59:33.614208", "temperature": 12.240350289992042}'
+11:59:35,785 root INFO ite/black0b'{"source": "fake", "team_name": "black", "created_on": "2020-05-26T11:59:35.746421", "temperature": 13.569731065243655}'
+11:59:35,933 root INFO ite/pink0b'{"source": "fake", "team_name": "pink", "created_on": "2020-05-26T11:59:35.894812", "temperature": 15.389387495033912}'
+11:59:36,186 root INFO ite/blue0b'{"source": "fake", "team_name": "blue", "created_on": "2020-05-26T11:59:36.147899", "temperature": 12.574640039944018}'
+11:59:36,209 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:59:36.147+01:00', 'temperature': 12.574640039944018}
+11:59:36,209 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T11:59:36.147+01:00', 'temperature': 12.574640039944018}
+11:59:36,455 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+11:59:36,455 root INFO <Response [200]>
+11:59:46,641 root INFO ite/orange0b'{"source": "fake", "team_name": "orange", "created_on": "2020-05-26T11:59:46.599701", "temperature": 10.656705570202579}'
+12:00:19,782 root INFO ite/green0b'{"source": "fake", "team_name": "green", "created_on": "2020-05-26T12:00:19.743817", "temperature": 16.077712442033917}'
+12:00:22,714 root INFO ite/red0b'{"source": "fake", "team_name": "red", "created_on": "2020-05-26T12:00:22.668820", "temperature": 15.9350118299876}'
+12:00:33,743 root INFO ite/yellow0b'{"source": "fake", "team_name": "yellow", "created_on": "2020-05-26T12:00:33.701377", "temperature": 12.265126224717957}'
+12:00:35,885 root INFO ite/black0b'{"source": "fake", "team_name": "black", "created_on": "2020-05-26T12:00:35.845291", "temperature": 13.92033677009983}'
+12:00:36,20 root INFO ite/pink0b'{"source": "fake", "team_name": "pink", "created_on": "2020-05-26T12:00:35.976413", "temperature": 15.752319333875082}'
+12:00:36,265 root INFO ite/blue0b'{"source": "fake", "team_name": "blue", "created_on": "2020-05-26T12:00:36.224053", "temperature": 12.452429314531836}'
+12:00:36,280 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T12:00:36.224+01:00', 'temperature': 12.452429314531836}
+12:00:36,280 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T12:00:36.224+01:00', 'temperature': 12.452429314531836}
+12:00:36,486 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+12:00:36,486 root INFO <Response [200]>
+12:00:45,265 root INFO Logged in as Blue
+12:00:45,265 root INFO ('teamUUID:', 'f32c6941-bc2d-41b2-8bb3-cb6082427613')
+12:00:45,265 root INFO Getting sensor for teamUUID: f32c6941-bc2d-41b2-8bb3-cb6082427613
+12:00:45,511 root INFO id:3, name: sensor3, sensorUUID: d384a529-6227-4133-afc9-4f5a16665f1f
+12:00:45,581 root INFO ('Connected to 147.228.124.230/ite/# with result code qos:', '0')
+12:00:46,738 root INFO ite/orange0b'{"source": "fake", "team_name": "orange", "created_on": "2020-05-26T12:00:46.698489", "temperature": 11.01759743883723}'
+12:01:19,886 root INFO ite/green0b'{"source": "fake", "team_name": "green", "created_on": "2020-05-26T12:01:19.842981", "temperature": 15.682522013551676}'
+12:01:22,800 root INFO ite/red0b'{"source": "fake", "team_name": "red", "created_on": "2020-05-26T12:01:22.760081", "temperature": 16.035770545693175}'
+12:01:33,833 root INFO ite/yellow0b'{"source": "fake", "team_name": "yellow", "created_on": "2020-05-26T12:01:33.780737", "temperature": 12.562302788107317}'
+12:01:35,985 root INFO ite/black0b'{"source": "fake", "team_name": "black", "created_on": "2020-05-26T12:01:35.943537", "temperature": 13.90179280394539}'
+12:01:36,92 root INFO ite/pink0b'{"source": "fake", "team_name": "pink", "created_on": "2020-05-26T12:01:36.050723", "temperature": 15.135175033942945}'
+12:01:36,318 root INFO ite/blue0b'{"source": "fake", "team_name": "blue", "created_on": "2020-05-26T12:01:36.263245", "temperature": 12.640305834590169}'
+12:01:36,347 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T12:01:36.263+01:00', 'temperature': 12.640305834590169}
+12:01:36,347 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T12:01:36.263+01:00', 'temperature': 12.640305834590169}
+12:01:36,589 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+12:01:36,589 root INFO <Response [200]>
+12:01:47,252 root INFO ite/red0b'{"source": "fake", "team_name": "red", "created_on": "2020-05-26T12:01:47.209928", "temperature": 33.36469138026816}'
+12:01:47,263 root INFO cant connect to server
+12:01:52,740 root INFO ite/green0b'{"source": "fake", "team_name": "green", "created_on": "2020-05-26T12:01:52.698757", "temperature": 14.651145767745582}'
+12:01:52,750 root INFO cant connect to server
+12:01:55,226 root INFO ite/blue0b'{"source": "fake", "team_name": "blue", "created_on": "2020-05-26T12:01:55.188261", "temperature": 15.891963875290276}'
+12:01:55,237 root INFO cant connect to server
+12:01:55,237 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T12:01:55.188+01:00', 'temperature': 15.891963875290276}
+12:01:55,237 root INFO {'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T12:01:55.188+01:00', 'temperature': 15.891963875290276}
+12:01:55,434 root INFO Storing measurement to API for teamUUID = f32c6941-bc2d-41b2-8bb3-cb6082427613
+12:01:55,435 root INFO <Response [200]>
+12:02:02,85 root INFO ite/black0b'{"source": "fake", "team_name": "black", "created_on": "2020-05-26T12:02:02.038961", "temperature": 13.745335163129269}'
+12:02:02,90 root INFO cant connect to server
+12:02:04,542 root INFO ite/pink0b'{"source": "fake", "team_name": "pink", "created_on": "2020-05-26T12:02:04.502807", "temperature": 16.228689068749276}'
+12:02:04,550 root INFO cant connect to server
+12:02:07,630 root INFO ite/yellow0b'{"source": "fake", "team_name": "yellow", "created_on": "2020-05-26T12:02:07.588727", "temperature": 11.492659267031543}'
+12:02:07,640 root INFO cant connect to server
+12:02:10,503 root INFO ite/orange0b'{"source": "fake", "team_name": "orange", "created_on": "2020-05-26T12:02:10.460635", "temperature": 10.805421822929453}'
+12:02:10,507 root INFO cant connect to server
+12:02:47,336 root INFO ite/red0b'{"source": "fake", "team_name": "red", "created_on": "2020-05-26T12:02:47.290796", "temperature": 13.83633510308014}'
+12:02:47,347 root INFO cant connect to server
+12:02:52,845 root INFO ite/green0b'{"source": "fake", "team_name": "green", "created_on": "2020-05-26T12:02:52.790181", "temperature": 15.584051420906938}'
+12:02:52,850 root INFO cant connect to server
+12:02:55,276 root INFO ite/blue0b"{'source': 'fake', 'team_name': 'blue', 'created_on': '2020-05-26T12:02:55.234840'K 'temperature': -3.9477220790859633}"
