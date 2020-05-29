@@ -520,6 +520,17 @@ button:focus {
 	width: 100%;
 }
 
+#mu-counter-server {
+	background-image: url("../images/cloud.jpeg");
+	background-position: center center;
+	background-size: cover;
+	background-attachment: fixed;
+	display: inline;
+	float: left;
+	position: relative;
+	width: 100%;
+}
+
 #mu-counter-black {
 	background-image: url("../images/black_wp.png");
 	background-position: center center;
@@ -1174,6 +1185,122 @@ button:focus {
 	margin-right: 10px;
 }
 
+#mu-server {
+	background-color: #f8f8f8;
+	display: inline;
+	float: left;
+	width: 100%;
+}
+
+.mu-server-area {
+	display: inline;
+	float: left;
+	padding: 100px 0;
+	width: 100%;
+}
+
+.mu-server-header {
+	display: inline;
+	float: left;
+	text-align: center;
+	width: 100%;
+}
+
+.mu-server-content{
+	display: inline;
+	float: left;
+	margin-top: 50px;
+	width: 100%;
+}
+
+.mu-server-left {
+	display: inline;
+	float: left;
+	width: 100%;
+}
+
+.mu-server-form .form-group input {
+	background: transparent;
+	color: #333;
+	font-size: 15px;
+	border: 1px solid #333;
+	border-radius: 0;
+	height: 45px;
+	margin-bottom: 24px;
+}
+
+.mu-server-form .form-group textarea{
+	color: #333;
+	background: transparent;
+	border: 1px solid #333;
+	border-radius: 0;
+	font-size: 18px;
+	padding: 10px;
+	height: 190px;
+}
+
+.mu-server-form .form-control:focus {
+	background-color: #fff;
+    outline: 0;
+    box-shadow: none;    
+} ©
+
+.mu-server-form .form-control::-webkit-input-placeholder {
+	color: #888;
+	font-size: 15px;
+}
+
+.mu-server-form .form-control:-moz-placeholder { /* Firefox 18- */
+	color: #888;
+	font-size: 15px; 
+}
+
+.mu-server-form .form-control::-moz-placeholder {  /* Firefox 19+ */
+	color: #888;
+	font-size: 15px;
+}
+
+.mu-server-form .form-control:-ms-input-placeholder {  
+	color: #888;
+	font-size: 15px;
+}
+
+.mu-server-form button {
+	float: left;
+	margin-left: 0;
+	border-radius: 0px;
+}
+
+.mu-server-form .button-default::after,
+.mu-server-form .button-default > span {
+	padding: 12px 40px;  
+}
+
+.mu-server-right {
+	display: inline;
+	float: left;
+	width: 100%;
+}
+
+.mu-server-right h4{
+	font-size: 24px;
+}
+
+.mu-server-right address {
+	padding-left: 0;
+	margin-top: 15px;
+	display: block;
+	width: 100%;
+}
+
+.mu-server-right address p {
+	font-size: 16px;
+}
+
+.mu-server-right address p i{
+	margin-right: 10px;
+}
+
 .mu-social-media {
 	display: inline;
 	float: left;
@@ -1226,8 +1353,6 @@ button:focus {
      -moz-border-radius: 4px;
           border-radius: 4px;
 }
-
-
 
 /* GOOGLE MAP */
 
