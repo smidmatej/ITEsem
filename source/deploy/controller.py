@@ -83,6 +83,7 @@ def on_message(client, userdata, msg):
     global teamUUID
     global sensorUUID
     global alert_state
+    server_status = 'Online'
     
     if (msg.payload == 'Q'):
         client.disconnect()
@@ -93,17 +94,18 @@ def on_message(client, userdata, msg):
     
     if mes_dict != None:
         store_to_db(mes_dict)
+        if msg.topic == 'ite/blue':
+            response = store_meas(teamUUID, sensorUUID, mes_dict)
+            if response.status_code >= 500: # stavove kody HTTP vetsi nez 500 jsou server errory
+                server_status = 'Offline' 
         try:
             # send to WS
             stats = get_stats(mes_dict['team_name'])
-            mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : 'Online', 'cur_temp' : mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2]}
+            mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : 'Online', 'cur_temp' : mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2], 'API_status' : server_status}
             loop = asyncio.get_event_loop()
             loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
         except:
             print('cant connect to server')
-            
-        if msg.topic == 'ite/blue':
-            store_meas(teamUUID, sensorUUID, mes_dict)
         
         #Posilani alertu a checkovani jestli jsme v alertovym stavu
         if not alert_state:
