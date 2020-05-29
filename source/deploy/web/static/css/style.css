@@ -521,7 +521,7 @@ button:focus {
 }
 
 #mu-counter-server {
-	background-image: url("../images/cloud.jpeg");
+	background-image: url("../images/cloud.jpg");
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;
