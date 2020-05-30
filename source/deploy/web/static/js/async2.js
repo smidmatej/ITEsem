@@ -40,6 +40,8 @@ var pink_min_temp = document.querySelector('.pink_min')
 var pink_max_temp = document.querySelector('.pink_max')
 var pink_avg_temp = document.querySelector('.pink_avg')
 
+var server_stat = document.querySelector('.server_stat')
+
 //websocket = new WebSocket("ws://127.0.0.1:6789/");
 websocket = new WebSocket("ws://" + window.location.hostname + ":6789/");
 
@@ -91,6 +93,6 @@ websocket = new WebSocket("ws://" + window.location.hostname + ":6789/");
                         yellow_max_temp.textContent = data.yellow.max_temp.toFixed(2);
                         yellow_avg_temp.textContent = data.yellow.avg_temp.toFixed(2);
 
-                
+                        server_stat.textContent = data.API_status;
             };
 
