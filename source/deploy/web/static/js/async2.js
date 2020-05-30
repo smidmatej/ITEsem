@@ -54,8 +54,6 @@ websocket = new WebSocket("ws://" + window.location.hostname + ":6789/");
                         blue_min_temp.textContent = data.blue.min_temp.toFixed(2);
                         blue_max_temp.textContent = data.blue.max_temp.toFixed(2);
                         blue_avg_temp.textContent = data.blue.avg_temp.toFixed(2);
-                        
-                    	
 
                     	black_status.textContent = data.black.Status;
                         black_cur_temp.textContent = data.black.cur_temp.toFixed(2);
