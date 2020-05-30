@@ -18,6 +18,7 @@ from get_stats import get_stats
 SERVER = '147.228.124.230'  # RPi IP adress
 TOPIC = 'ite/#' # Team Blue
 DATABASE = 'data.db'
+server_status = 'Online'
 
 #WS_SERVER = "147.228.121.51" #REMOTE
 WS_SERVER = "127.0.0.1" #LOCAL
@@ -103,7 +104,7 @@ def on_message(client, userdata, msg):
     global teamUUID
     global sensorUUID
     global alert_state
-    server_status = 'Online'
+    global server_status
     
     if (msg.payload == 'Q'):
         client.disconnect()
@@ -118,7 +119,9 @@ def on_message(client, userdata, msg):
         if msg.topic == 'ite/blue':
             response = store_meas(teamUUID, sensorUUID, mes_dict)
             if response.status_code >= 500: # stavove kody HTTP vetsi nez 500 jsou server errory
-                server_status = 'Offline' 
+                server_status = 'Offline'
+            else:
+                server_status = 'Online' 
         try:
             # send to WS
             stats = get_stats(mes_dict['team_name'])
