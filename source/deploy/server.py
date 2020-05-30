@@ -40,34 +40,38 @@ WS_PORT = 6789
 HTTP_PORT = 8889
 
 def state_event():
+    """Vytvoří zprávu, která je složena ze slovníků STATE a HISTORY pro metodu notify_state"""
     update_history()
     message = {'STATE': STATE, 'HISTORY': HISTORY}
     return json.dumps(message)
 
 
 def new_user_login():
-    #return json.dumps({"type": "users", "count": len(USERS)})
-    update_history() #aktualizuje promenou HISTORY z databaze
-    message = {'STATE': STATE, 'HISTORY': HISTORY} # pri pripojeni noveho klienta posle momentalni stav a data z minulosti
-    #print(HISTORY)
+    """Vytvoří zprávu, která je složena ze slovníků STATE a HISTORY pro metodu notify_users"""
+    update_history()
+    message = {'STATE': STATE, 'HISTORY': HISTORY}
     return json.dumps(message)
 
 def update_history():
+    """Pro každý tým aktualizuje slovník HISTORY"""
     for team_name in TEAM_NAMES:
         HISTORY[team_name] = get_history(team_name)
 
 def initialize_state():
+    """Pro každý tým inicializuje do slovníku STATE jeho poslední záznam v databázi"""
     for team_name in TEAM_NAMES:
         STATE[team_name] = get_most_recent_db_entry_for_team(team_name)
     
 async def notify_state():
-    if USERS:  # asyncio.wait doesn't accept an empty list
+    """Každému uživateli zašle zprávu s daty, získanými voláním metody state_event"""
+    if USERS:  
         message = state_event()
         await asyncio.wait([user.send(message) for user in USERS])
 
 
 async def notify_users():
-    if USERS:  # asyncio.wait doesn't accept an empty list
+    """Zašle aktuální data nově připojenému uživateli"""
+    if USERS:  
         message = new_user_login()
         await asyncio.wait([user.send(message) for user in USERS])
 
@@ -87,7 +91,7 @@ async def unregister(websocket):
 
 
 async def counter(websocket, path):
-    # register(websocket) sends user_event() to websocket
+    """Při obdržení zprávy přes websockets aktualizuje API_status ve slovníku STATE a zbylá data uloží pro daný tým do slovníku STATE, následně zavolá metodu notify_state()"""
     await register(websocket)
     try:
         await websocket.send(state_event())
@@ -105,9 +109,9 @@ async def counter(websocket, path):
             await notify_state()
     finally:
         await unregister(websocket)
-#STATE = {"blue": blue_dict, 'black': black_dict, 'green': green_dict, 'orange': orange_dict, 'pink': pink_dict, 'red': red_dict, 'yellow': yellow_dict}
 
 class MainHandler(tornado.web.RequestHandler):
+    """Vykreslí stránku index.html v adresáři web"""
     def get(self):
         self.render('web/index.html')
 
