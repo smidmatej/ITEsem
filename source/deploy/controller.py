@@ -131,7 +131,7 @@ def on_message(client, userdata, msg):
             
         if msg.topic == 'ite/blue':
             store_meas(teamUUID, sensorUUID, mes_dict)
-            print('cant connect to server')
+            #print('cant connect to server')
 
         
         #Posilani alertu a checkovani jestli jsme v alertovym stavu

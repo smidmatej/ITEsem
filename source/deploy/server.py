@@ -74,14 +74,14 @@ async def notify_users():
 
 async def register(websocket):
     USERS.add(websocket)
-    print('User logged in')
+    #print('User logged in')
     logging.info('User logged in')
     await notify_users()
 
 
 async def unregister(websocket):
     USERS.remove(websocket)
-    print('User logged out')
+    #print('User logged out')
     logging.info('User logged out')
     await notify_users()
 
@@ -96,7 +96,7 @@ async def counter(websocket, path):
             STATE['API_status'] = data['API_status']
             del data['API_status']
             #print(data)
-            print('Number of users' + str(len(USERS)))
+            #print('Number of users' + str(len(USERS)))
             logging.info('Number of users' + str(len(USERS)))
             for team_name in TEAM_NAMES:
                 if data['team'] == team_name:
