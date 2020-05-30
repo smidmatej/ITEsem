@@ -30,6 +30,13 @@ HIGH_TEMP = 30
 url_base = 'https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod'
 body_login = {'username': 'Blue', 'password': 'n96{ZYV7'}
 
+logname = 'logs/controller_logs.txt'
+logging.basicConfig(filename=logname,
+                            filemode='a',
+                            format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                            datefmt='%H:%M:%S',
+                            level=logging.INFO)
+
 alert_state = False
 ## Login
 
@@ -38,9 +45,14 @@ def login(body_login):
     headers_base_login = {'Content-Type': 'application/json'}
     
     login_data = loads_json(requests.post(url_login, data=dumps_json(body_login), headers=headers_base_login).text)
+    logout = 'Logged in as ' + login_data['username']
+    logging.info(logout)
+    #print(logout)
+    logout = 'teamUUID:', login_data['teamUUID']
+    logging.info(logout)
+    #print(logout)
     
-    print('Logged in as ' + login_data['username'])
-    print('teamUUID:', login_data['teamUUID'])
+    
     
     return login_data
 #teamUUID = 'f32c6941-bc2d-41b2-8bb3-cb6082427613' #blue
@@ -51,10 +63,15 @@ def get_sensors(teamUUID):
     url_sensors = url_base+'/sensors'
     headers_sensors = {'Content-Type': 'application/json', 'teamUUID': teamUUID}
     
-    print('Getting sensor for teamUUID: ' + teamUUID)
-    sensor_data = loads_json(requests.get(url_sensors, headers=headers_sensors).text)[0]
+    logout = 'Getting sensor for teamUUID: ' + teamUUID
+    logging.info(logout)
+    #print(logout)
     
-    print('id:' + str(sensor_data['id']) + ', name: ' + sensor_data['name'] + ', sensorUUID: '+ sensor_data['sensorUUID'])
+    sensor_data = loads_json(requests.get(url_sensors, headers=headers_sensors).text)[0]
+    logout = 'id:' + str(sensor_data['id']) + ', name: ' + sensor_data['name'] + ', sensorUUID: '+ sensor_data['sensorUUID']
+    logging.info(logout)
+    #print(logout)
+    
     return sensor_data
 #sensorUUIDblue = 'd384a529-6227-4133-afc9-4f5a16665f1f'
 
@@ -64,7 +81,10 @@ def get_sensors(teamUUID):
 def on_connect(client, userdata, mid, qos):
     global SERVER
     global TOPIC
-    print('Connected to ' + SERVER + r'/' + TOPIC + ' with result code qos:', str(qos))
+    logout = 'Connected to ' + SERVER + r'/' + TOPIC + ' with result code qos:', str(qos)
+    logging.info(logout)
+    #print(logout)
+    
     
     client.subscribe(TOPIC) #subscribenuti topicu 
 
@@ -87,8 +107,9 @@ def on_message(client, userdata, msg):
     
     if (msg.payload == 'Q'):
         client.disconnect()
-    
-    print(msg.topic, msg.qos, msg.payload)
+    logout = str(msg.topic) + str(msg.qos) + str(msg.payload)
+    #print(logout)
+    logging.info(logout)
     
     mes_dict = message_to_dict(str(msg.payload)) # msg to dict
     
@@ -105,7 +126,13 @@ def on_message(client, userdata, msg):
             loop = asyncio.get_event_loop()
             loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
         except:
+            logging.info('cant connect to server')
+            
+            
+        if msg.topic == 'ite/blue':
+            store_meas(teamUUID, sensorUUID, mes_dict)
             print('cant connect to server')
+
         
         #Posilani alertu a checkovani jestli jsme v alertovym stavu
         if not alert_state:
@@ -139,17 +166,19 @@ def message_to_dict(mes): #prevede MQTT zpravu na dict
         team_name = re.search("(team_name){1}", mes).group().strip()
         created_on = re.search("(created_on){1}", mes).group().strip()
         temperature = re.search("(temperature){1}", mes).group().strip()
-        #print(source + ", " + team_name + ", " + created_on + ", " + temperature)
+        ##print(source + ", " + team_name + ", " + created_on + ", " + temperature)
         
         source_value = re.search('(?<="source": ").+(?=", "team_name")', mes).group().strip() # "fake"/"real"
         team_name_value = re.search('(?<="team_name": ").+(?=", "created_on")', mes).group().strip() # barva tymu
         created_on_value = re.search('(?<="created_on": ").+(?=", "temperature")', mes).group().strip()
         temperature_value = re.search('(?<="temperature": ).+(?=})', mes).group().strip()
-        #print(value1 + ", " + value2 + ", " + value3 + ", " + value4)
+        ##print(value1 + ", " + value2 + ", " + value3 + ", " + value4)
         
         mes_dict = {source: source_value, team_name: team_name_value, created_on: created_on_value, temperature: float(temperature_value)}
     except: 
-        print("I'm afraid your journey ends here, traveler ʕᵒ̌n ᵒ̌ʔ ")
+        #print("I'm afraid your journey ends here, traveler ʕᵒ̌n ᵒ̌ʔ ")
+        logging.info("I'm afraid your journey ends here, traveler ʕᵒ̌n ᵒ̌ʔ ")
+        
         return None
         
     return mes_dict
@@ -162,7 +191,9 @@ def dict_format_for_API_meas(mes_dict): #specialni datetime format pro store mea
     
     mes_dict_formated = copy.deepcopy(mes_dict) #deepcopy, jinak se prepise hodnota externe
     mes_dict_formated.update({'created_on': time_formated_appended}) # prepise starej format casu na novej
-    print(mes_dict_formated)
+    #print(mes_dict_formated)
+    logging.info(mes_dict_formated)
+    
     return mes_dict_formated
 
 def get_epoch_time_from_date(created_on): #pro created_on
@@ -175,13 +206,19 @@ def store_meas(teamUUID, sensorUUID, mes_dict):
     headers_base_measurement = {'Content-Type': 'application/json', 'teamUUID': teamUUID }
     
     measurement = dict_format_for_API_meas(mes_dict)
+    #print(measurement)
+    logging.info(measurement)
     
-    print(measurement)
     body_measurement = {'createdOn': measurement['created_on'], 'sensorUUID': sensorUUID, 'temperature': str(round(measurement['temperature'],1)), 'status': 'TEST'}
     
     response = requests.post(url_measurement, data=dumps_json(body_measurement), headers=headers_base_measurement)
-    print('Storing measurement to API for teamUUID = ' + teamUUID)
-    print(response)
+    logout = 'Storing measurement to API for teamUUID = ' + teamUUID
+    logging.info(logout)
+    logging.info(response)
+    #print(logout)
+    #print(response)
+    
+    
     return response
 
 def check_if_alert(mes_dict):
@@ -198,18 +235,23 @@ def store_alert(teamUUID, sensorUUID, mes_dict):
     
     alert = dict_format_for_API_alert(mes_dict)
     
-    print(alert)
+    logging.info(alert)
+    
     body_alert = {'createdOn': alert['created_on'], 'sensorUUID': sensorUUID, 'temperature': str(round(alert['temperature'],1)), 'lowTemperature': alert['lowTemperature'], 'highTemperature': alert['highTemperature']}
     
     response = requests.post(url_alert, data=dumps_json(body_alert), headers=headers_base_alert)
-    print('Storing alert to API for teamUUID = ' + teamUUID)
+    logout = 'Storing alert to API for teamUUID = ' + teamUUID
+    logging.info(logout)
+    #print(logout)
+    
     
     return response
 
 def dict_format_for_API_alert(mes_dict):
     time_formated = datetime.strptime(mes_dict['created_on'], '%Y-%m-%dT%H:%M:%S.%f')
     time_formated_appended = time_formated.strftime("%Y-%m-%d") + 'T'+ time_formated.strftime("%H:%M:%S.") + str(int(time_formated.strftime("%f"))//1000) + '+' + '01:00'
-    print(mes_dict)
+    #print(mes_dict)
+    
     
     message = {'created_on': time_formated_appended, 'temperature': mes_dict['temperature'], 'lowTemperature': LOW_TEMP, 'highTemperature': HIGH_TEMP}
     return message
@@ -264,15 +306,15 @@ def get_stats(team:str):
     
     #team min temp
     team_min = min(team_temp_valid)
-    print("Dnešní minimální teplota týmu "+team+": "+str(team_min))
+    #print("Dnešní minimální teplota týmu "+team+": "+str(team_min))
     
     #team max temp
     team_max = max(team_temp_valid)
-    print("Dnešní maximální teplota týmu " +team+": "+str(team_max))
+    #print("Dnešní maximální teplota týmu " +team+": "+str(team_max))
     
     #team avg temp
     team_avg = mean(team_temp_valid)
-    print("Dnešní průměrná teplota týmu " +team+": "+str(team_avg))
+    #print("Dnešní průměrná teplota týmu " +team+": "+str(team_avg))
     
     return [team_min, team_max, team_avg]
 '''
@@ -291,9 +333,9 @@ if __name__ == '__main__':
     
     client.connect(SERVER, 1883, 60)
     '''
-    print('ahoj1')
+    #print('ahoj1')
     start_server = websockets.serve(producer_handler, "localhost", 6789)
-    print('ahoj')
+    #print('ahoj')
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
     '''

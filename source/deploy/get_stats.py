@@ -31,9 +31,12 @@ def get_stats(team):
     
     cursor.execute('SELECT temperature, created_on_timestamp FROM measurements WHERE team_name = (?) AND created_on_timestamp > (?) ORDER BY created_on_timestamp', (team, time_minus_24h))
     output = cursor.fetchall() #casove hodnoty
-    
-    temperatures = [item[0] for item in output] #teplotni hodnoty
-    print(temperatures)
+    #print(output == [])
+    if output == []: #prazdna databaze
+        temperatures = [-1000]
+    else:
+        temperatures = [item[0] for item in output] #teplotni hodnoty
+
     
     '''
     # převedení času na použitelné hodnoty
