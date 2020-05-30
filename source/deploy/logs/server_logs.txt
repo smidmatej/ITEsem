@@ -243,3 +243,25 @@ websockets.exceptions.ConnectionClosedOK: code = 1001 (going away), no reason
 12:01:36,325 root INFO User logged in
 12:01:36,342 root INFO Number of users1
 12:01:36,347 root INFO User logged out
+15:22:36,13 tornado.access INFO 200 GET / (127.0.0.1) 15.58ms
+15:22:36,56 tornado.access INFO 200 GET /static/css/style.css?v=7c0646c9bd876dea0f4ee39d8eb74283 (127.0.0.1) 4.58ms
+15:22:36,61 tornado.access INFO 304 GET /static/js/bootstrap.min.js?v=5869c96cc8f19086aee625d670d741f9 (127.0.0.1) 3.72ms
+15:22:36,61 tornado.access INFO 200 GET /static/js/async2.js?v=cd61d784e19704e255fc85882f174365 (127.0.0.1) 3.81ms
+15:22:36,62 tornado.access INFO 200 GET /static/js/chart.js?v=7fcb597bf864b1b6437ce09210b4ad6c (127.0.0.1) 3.96ms
+15:22:36,63 tornado.access INFO 304 GET /static/css/bootstrap.min.css?v=ec3bb52a00e176a7181d454dffaea219 (127.0.0.1) 4.75ms
+15:22:36,64 tornado.access INFO 304 GET /static/css/slick.css?v=7ddcd364f7fcd5666078683661b1b74f (127.0.0.1) 4.99ms
+15:22:36,65 tornado.access INFO 304 GET /static/css/magnific-popup.css?v=8d32489271412149a2c6d114a35785d0 (127.0.0.1) 4.91ms
+15:22:36,68 tornado.access INFO 304 GET /static/js/slick.min.js?v=b53bdfc29e18f4d493d775a8023fbdc8 (127.0.0.1) 2.47ms
+15:22:36,69 tornado.access INFO 304 GET /static/js/app.js?v=58d197cfcb9f61d85839a21c1ab2c288 (127.0.0.1) 2.63ms
+15:22:36,70 tornado.access INFO 304 GET /static/js/custom.js?v=7df0d345b469a2e47e64392bc5fc0c21 (127.0.0.1) 2.68ms
+15:22:37,131 tornado.access INFO 200 GET /static/images/cloud.jpg (127.0.0.1) 1.87ms
+15:22:37,137 tornado.access INFO 304 GET /static/images/blue_wp.png (127.0.0.1) 5.43ms
+15:22:37,145 tornado.access INFO 304 GET /static/images/black_wp.png (127.0.0.1) 7.00ms
+15:22:37,154 tornado.access INFO 304 GET /static/images/yellow_wp.png (127.0.0.1) 8.53ms
+15:22:37,163 tornado.access INFO 304 GET /static/images/green_wp.png (127.0.0.1) 9.27ms
+15:22:37,173 tornado.access INFO 304 GET /static/images/orange_wp.png (127.0.0.1) 18.67ms
+15:22:37,183 tornado.access INFO 304 GET /static/images/pink_wp.png (127.0.0.1) 28.72ms
+15:22:37,194 tornado.access INFO 304 GET /static/images/red_wp.png (127.0.0.1) 38.98ms
+15:22:37,195 root INFO User logged in
+15:22:37,207 root INFO User logged in
+15:22:37,831 tornado.access INFO 200 GET /static/images/favicon.ico?v=c00ed59a54abe22a3e7f3af567e75dc5 (127.0.0.1) 0.81ms
