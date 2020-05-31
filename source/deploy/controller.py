@@ -12,7 +12,6 @@ import time
 import copy
 from statistics import mean
 from get_stats import get_stats
-from multiprocessing import Process
 
 ## Deklarace
 
@@ -271,16 +270,8 @@ if __name__ == '__main__':
     
     client.connect(SERVER, 1883, 60)
     
-    ###
-    p1 = Process(target=sensor_status())
-    p2 = Process(target=client.loop_forever())
-    p1.start()
-    p2.start()
-    p1.join()
-    p2.join()
-    ###
-    
+    client.loop_start()
 
-    #client.loop_forever()
+    sensor_status()
     
  
