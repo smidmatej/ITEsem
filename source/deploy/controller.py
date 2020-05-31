@@ -32,7 +32,7 @@ HIGH_TEMP = 30
 url_base = 'https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod'
 body_login = {'username': 'Blue', 'password': 'n96{ZYV7'}
 
-sensor_inc = {'blue' : 0, 'red' : 0, 'green' : 0, 'black': 0, 'yellow' : 0 , 'pink' : 0, 'orange' : 0}
+sensor_inc = {'red' : 0, 'blue' : 0, 'green' : 0, 'black': 0, 'yellow' : 0 , 'pink' : 0, 'orange' : 0}
 sensor_stat = {'blue' : 'Online', 'red' : 'Online', 'green' : 'Online' , 'black' : 'Online' , 'yellow' : 'Online' , 'pink' : 'Online' , 'orange' : 'Online' }
 
 logname = 'logs/controller_logs.txt'
@@ -123,7 +123,7 @@ def on_message(client, userdata, msg):
             sensor_stat[mes_dict['team_name']] = 'Online'
             sensor_inc[mes_dict['team_name']] = 0
             stats = get_stats(mes_dict['team_name'])
-            mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : sensor_stat, 'cur_temp' : mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2], 'API_status' : server_status}
+            mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : sensor_stat[mes_dict['team_name']], 'cur_temp' : mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2], 'API_status' : server_status}
             loop = asyncio.get_event_loop()
             loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
         except:
@@ -244,16 +244,18 @@ def sensor_status():
     global server_status
 
     while True:
-        sleep(60)
+        time.sleep(30)
         for key in sensor_inc:
             sensor_inc[key] += 1
         for key in sensor_inc:
             if sensor_inc[key] >= 1:
+                print('Start')
                 sensor_stat[key] = 'Offline'
                 stats = get_stats(key)
                 mes_to_ws = {'team' : key, 'Status' : sensor_stat[key], 'cur_temp' : 'None', 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2], 'API_status' : server_status}
                 loop = asyncio.get_event_loop()
                 loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
+                print('Stop')
 
 
 if __name__ == '__main__':
@@ -268,16 +270,17 @@ if __name__ == '__main__':
     client.username_pw_set('mqtt_student', password='pivo')
     
     client.connect(SERVER, 1883, 60)
-
+    
     ###
     p1 = Process(target=sensor_status())
-    p1.start()
     p2 = Process(target=client.loop_forever())
-    p1.join()
+    p1.start()
     p2.start()
+    p1.join()
     p2.join()
     ###
+    
 
-    # client.loop_forever()
+    #client.loop_forever()
     
  

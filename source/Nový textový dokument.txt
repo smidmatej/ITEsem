@@ -1,0 +1,12 @@
+def ahoj():
+	print('Ahoj')
+
+def cau():
+	print('Cau')
+
+p1 = Process(target=sensor_status())
+p2 = Process(target=client.loop_forever())
+p1.start()
+p2.start()
+p1.join()
+p2.join()
