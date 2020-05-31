@@ -12,30 +12,20 @@ def get_stats(team):
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
 
-
-    time_now = time.time() #momentalni epoch time
-    time_24h = 24*60*60 # pocet sekund ve 24hodinach
+    time_now = time.time()
+    time_24h = 24*60*60
     time_minus_24h = time_now - time_24h
     
     cursor.execute('SELECT temperature, created_on_timestamp FROM measurements WHERE team_name = (?) AND created_on_timestamp > (?) ORDER BY created_on_timestamp', (team, time_minus_24h))
-    output = cursor.fetchall() #casove hodnoty
-    if output == []: #prazdna databaze
+    output = cursor.fetchall()
+    if output == []:
         temperatures = [-1000]
     else:
-        temperatures = [item[0] for item in output] #teplotni hodnoty
+        temperatures = [item[0] for item in output]
 
-    '''
-    ## Provedení statistik
-    
-    #team min temp
     team_min = min(temperatures)
-
-    #team max temp
     team_max = max(temperatures)
-
-    #team avg temp
     team_avg = mean(temperatures)
-    
     
     return [team_min, team_max, team_avg]
 
