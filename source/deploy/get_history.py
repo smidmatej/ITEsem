@@ -8,6 +8,7 @@ from get_stats import get_stats
 
 
 def get_history(team_name):
+    """Pro zadaný tým vrátí z databáze hodnoty za posledních 24 hodin"""
 
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
@@ -28,6 +29,7 @@ def get_history(team_name):
 
 
 def get_most_recent_db_entry_for_team(team_name):
+    """Pro zadaný tým vrátí z databáze záznam, který byl uložen jako poslední"""
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
     STATE = dict()
