@@ -45,13 +45,6 @@ def state_event():
     message = {'STATE': STATE, 'HISTORY': HISTORY}
     return json.dumps(message)
 
-
-def new_user_login():
-    """Vytvoří zprávu, která je složena ze slovníků STATE a HISTORY pro metodu notify_users"""
-    update_history()
-    message = {'STATE': STATE, 'HISTORY': HISTORY}
-    return json.dumps(message)
-
 def update_history():
     """Pro každý tým aktualizuje slovník HISTORY"""
     for team_name in TEAM_NAMES:
@@ -68,24 +61,18 @@ async def notify_state():
         message = state_event()
         await asyncio.wait([user.send(message) for user in USERS])
 
-
-async def notify_users():
-    """Zašle aktuální data nově připojenému uživateli"""
-    if USERS:  
-        message = new_user_login()
-        await asyncio.wait([user.send(message) for user in USERS])
-
-
 async def register(websocket):
+    """Přidá uživatele webového serveru do seznamu uživatelů"""
     USERS.add(websocket)
     logging.info('User logged in')
-    await notify_users()
+    await notify_state()
 
 
 async def unregister(websocket):
+    """Odebere uživatele webového serveru do seznamu uživatelů"""
     USERS.remove(websocket)
     logging.info('User logged out')
-    await notify_users()
+    await notify_state()
 
 
 async def counter(websocket, path):
