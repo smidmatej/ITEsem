@@ -12,6 +12,7 @@ import time
 import copy
 from statistics import mean
 from get_stats import get_stats
+from threading import Thread
 
 ## Deklarace
 
@@ -31,6 +32,7 @@ HIGH_TEMP = 30
 url_base = 'https://uvb1bb4153.execute-api.eu-central-1.amazonaws.com/Prod'
 body_login = {'username': 'Blue', 'password': 'n96{ZYV7'}
 
+last_temp = {'red' : 0, 'blue' : 0, 'green' : 0, 'black': 0, 'yellow' : 0 , 'pink' : 0, 'orange' : 0}
 sensor_inc = {'red' : 0, 'blue' : 0, 'green' : 0, 'black': 0, 'yellow' : 0 , 'pink' : 0, 'orange' : 0}
 sensor_stat = {'blue' : 'Online', 'red' : 'Online', 'green' : 'Online' , 'black' : 'Online' , 'yellow' : 'Online' , 'pink' : 'Online' , 'orange' : 'Online' }
 
@@ -79,12 +81,8 @@ def on_connect(client, userdata, mid, qos):
     
     client.subscribe(TOPIC)
 
-async def producer_handler(websocket, path):
-    while True:
-        message = await on_message()
-        await websocket.send(message)
-
 async def produce(message: str, host: str, port: int) -> None:
+    """Vytvoří zprávu pro websockets a pošle ji na url ve tvaru ws://host:port"""
     async with websockets.connect(f"ws://{host}:{port}") as ws:
         await ws.send(message)
         await ws.recv()
@@ -102,6 +100,7 @@ def on_message(client, userdata, msg):
     global server_status
     global sensor_stat
     global sensor_inc
+    global last_temp
     
     if (msg.payload == 'Q'):
         client.disconnect()
@@ -119,11 +118,13 @@ def on_message(client, userdata, msg):
             else:
                 server_status = 'Online' 
         try:
+            last_temp[mes_dict['team_name']] = mes_dict['temperature']
             sensor_stat[mes_dict['team_name']] = 'Online'
             sensor_inc[mes_dict['team_name']] = 0
             stats = get_stats(mes_dict['team_name'])
             mes_to_ws = {'team' : mes_dict['team_name'], 'Status' : sensor_stat[mes_dict['team_name']], 'cur_temp' : mes_dict['temperature'] , 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2], 'API_status' : server_status}
-            loop = asyncio.get_event_loop()
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
             loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
         except:
             logging.info('cant connect to server')
@@ -238,23 +239,26 @@ def dict_format_for_API_alert(mes_dict):
     return message
 
 def sensor_status():
+    """Měří uplynulý čas od posledního zaslaného data od senzoru, pokud je čas pro daný senzor větší než 2 minuty, nastaví senzor jako neaktivní"""
     global sensor_inc
     global sensor_stat
     global server_status
+    global last_temp
 
+    start_time = time.time()
     while True:
-        time.sleep(30)
+        elapsed_time = time.time() - start_time
+        start_time = time.time()
         for key in sensor_inc:
-            sensor_inc[key] += 1
+            sensor_inc[key] += elapsed_time
         for key in sensor_inc:
-            if sensor_inc[key] >= 1:
-                print('Start')
+            if sensor_inc[key] > 120 and sensor_stat[key] == 'Online':
                 sensor_stat[key] = 'Offline'
                 stats = get_stats(key)
-                mes_to_ws = {'team' : key, 'Status' : sensor_stat[key], 'cur_temp' : 'None', 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2], 'API_status' : server_status}
-                loop = asyncio.get_event_loop()
-                loop.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
-                print('Stop')
+                mes_to_ws = {'team' : key, 'Status' : sensor_stat[key], 'cur_temp' : last_temp[key], 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2], 'API_status' : server_status}
+                loop2 = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop2)
+                loop2.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
 
 
 if __name__ == '__main__':
@@ -269,9 +273,12 @@ if __name__ == '__main__':
     client.username_pw_set('mqtt_student', password='pivo')
     
     client.connect(SERVER, 1883, 60)
-    
-    client.loop_start()
 
-    sensor_status()
-    
- 
+    thr1 = Thread(target = client.loop_start())
+    thr2 = Thread(target = sensor_status())
+    thr1.setDaemon(True)
+    thr2.setDaemon(True)
+    thr1.start()
+    thr2.start()
+    while True:
+        pass
