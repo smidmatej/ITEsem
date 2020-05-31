@@ -256,9 +256,12 @@ def sensor_status():
                 sensor_stat[key] = 'Offline'
                 stats = get_stats(key)
                 mes_to_ws = {'team' : key, 'Status' : sensor_stat[key], 'cur_temp' : last_temp[key], 'min_temp' : stats[0], 'max_temp' : stats[1], 'avg_temp' : stats[2], 'API_status' : server_status}
-                loop2 = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop2)
-                loop2.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
+                try:
+                    loop2 = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop2)
+                    loop2.run_until_complete(produce(message=json.dumps(mes_to_ws), host=WS_SERVER, port=WS_PORT))
+                except:
+                    logging.info('cant connect to server')
 
 
 if __name__ == '__main__':
