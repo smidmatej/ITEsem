@@ -204,7 +204,7 @@ def store_meas(teamUUID, sensorUUID, mes_dict):
     logging.info(response)
     
     return response
-
+    
 def check_if_alert(mes_dict):
     """Zkontroluje, zda se hodnota v klíči 'temperature' ve slovníku mes_dict vymyká stanoveným hodnotám v proměnných HIGH_TEMP a LOW_TEMP"""
     temperature = mes_dict['temperature']

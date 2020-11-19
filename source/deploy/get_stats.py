@@ -11,7 +11,7 @@ def get_stats(team):
     """Pro tým zadaný v argumentu zjistí z databáze průměrnou, maximální a minimální teplotu za posledních 24 hodin"""
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
-
+    
     time_now = time.time()
     time_24h = 24*60*60
     time_minus_24h = time_now - time_24h
